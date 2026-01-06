@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Inventory Pro - Fixed Version</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
+    <style>
+        .status-pill { @apply px-2 py-0.5 rounded-full text-[10px] font-bold uppercase; }
+        .table-container { overflow-x: auto; scrollbar-width: thin; position: relative; }
+        th, td { white-space: nowrap; padding: 12px 16px; }
+        
+        /* Sticky Column Fix - Solid Background to prevent overlapping text */
+        .sticky-left-no { position: sticky; left: 0; z-index: 30; @apply bg-white dark:bg-gray-900 border-r dark:border-gray-800; }
+        .sticky-left-asset { position: sticky; left: 50px; z-index: 30; @apply bg-white dark:bg-gray-900 border-r-2 dark:border-gray-700 font-bold; }
+        .sticky-right-action { position: sticky; right: 0; z-index: 30; @apply bg-white dark:bg-gray-900 border-l-2 dark:border-gray-700 shadow-[-5px_0_10px_rgba(0,0,0,0.05)]; }
+
+        /* Ensure Header is also sticky */
+        thead th { position: sticky; top: 0; z-index: 40; @apply bg-gray-100 dark:bg-gray-800; }
+        thead th.sticky-left-no, thead th.sticky-left-asset { z-index: 50; }
+        thead th.sticky-right-action { z-index: 50; }
+
+        .page-btn { @apply px-3 py-1 border rounded text-xs font-bold transition hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30; }
+        .page-btn.active { @apply bg-indigo-600 text-white border-indigo-600; }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-950 min-h-screen text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <div class="max-w-[99%] mx-auto py-4">
+        <div class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm mb-4 flex flex-col lg:flex-row justify-between items-center border dark:border-gray-800">
+            <div>
+                <h1 class="text-xl font-black italic tracking-tighter text-indigo-600 uppercase">Fleet Master <span class="text-gray-400 dark:text-white not-italic">v3.3</span></h1>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mt-3 lg:mt-0">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800">🌓</button>
+                <input type="file" id="importFile" class="hidden" onchange="importData(event)">
+                <button onclick="document.getElementById('importFile').click()" class="bg-gray-200 dark:bg-gray-800 px-4 py-2 rounded text-[10px] font-black uppercase tracking-wider">Import JSON</button>
+                <button onclick="exportData()" class="bg-gray-800 dark:bg-indigo-700 text-white px-4 py-2 rounded text-[10px] font-black uppercase tracking-wider">Export JSON</button>
+                <button onclick="openModal()" class="bg-indigo-600 text-white px-5 py-2 rounded text-[10px] font-black shadow-lg uppercase">+ New Asset</button>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl border dark:border-gray-800 overflow-hidden">
+            <div class="p-3 border-b dark:border-gray-800 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/30">
+                <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Cari Serial, Asset, atau Unit..." class="border dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-4 py-1.5 text-xs w-80 outline-none focus:ring-2 focus:ring-indigo-500">
+                <div id="page-info" class="text-[10px] font-bold text-gray-500 uppercase"></div>
+            </div>
+
+            <div class="table-container max-h-[70vh]">
+                <table class="w-full text-left text-[11px]" id="inventoryTable">
+                    <thead class="uppercase">
+                        <tr>
+                            <th class="sticky-left-no" style="width: 50px;">No</th>
+                            <th class="sticky-left-asset" style="width: 150px;">Asset Code</th>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Purchase Source</th>
+                            <th>Serial (IMEI)</th>
+                            <th>SIM Number</th>
+                            <th>SIM ICCID</th>
+                            <th>Set Of (Linked)</th>
+                            <th>Qty</th>
+                            <th>Status</th>
+                            <th>Location</th>
+                            <th>Assigned To</th>
+                            <th>Assigned Unit</th>
+                            <th>Unit VIN</th>
+                            <th>Notes</th>
+                            <th class="sticky-right-action text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800" id="inventory-body"></tbody>
+                </table>
+            </div>
+
+            <div class="p-3 bg-gray-50 dark:bg-gray-900/50 border-t dark:border-gray-800 flex justify-center items-center gap-1" id="pagination-controls"></div>
+        </div>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-[100]">
+        <div class="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-5xl shadow-2xl max-h-[90vh] flex flex-col border dark:border-gray-700">
+            <form id="hw-form" class="flex flex-col h-full overflow-hidden">
+                <div class="p-5 border-b dark:border-gray-800 flex justify-between items-center">
+                    <h3 class="text-lg font-black text-indigo-600 uppercase" id="modal-title">Hardware Specification</h3>
+                    <button type="button" onclick="closeModal()" class="text-2xl hover:text-red-500 transition">&times;</button>
+                </div>
+                
+                <div class="p-6 overflow-y-auto grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <input type="hidden" id="edit-index">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Asset Code</label>
+                        <input type="text" id="asset_code" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800 outline-none focus:border-indigo-500" required>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Item Name</label>
+                        <input type="text" id="item_name" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Category</label>
+                        <select id="category" onchange="refreshAvailableAssets()" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800 outline-none">
+                            <option value="Device-Telematics">Device-Telematics</option>
+                            <option value="CAN">CAN Adapter</option>
+                            <option value="SIM">SIM Card</option>
+                            <option value="GPS">GPS Tracker</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Status</label>
+                        <select id="status" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800">
+                            <option value="On Trial">On Trial</option><option value="On Site">On Site</option>
+                            <option value="On Hand">On Hand</option><option value="Broken">Broken</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Serial Number (IMEI)</label>
+                        <input type="text" id="serial_number" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">SIM Number</label>
+                        <input type="text" id="sim_card_number" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">SIM ICCID</label>
+                        <input type="text" id="sim_card_iccid" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Qty</label>
+                        <input type="number" id="qty" value="1" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800">
+                    </div>
+
+                    <div class="md:col-span-4 bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800/50">
+                        <label class="block text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase mb-3">Linked Assets (Set Of)</label>
+                        <div id="bound-list" class="flex flex-wrap gap-2 mb-4"></div>
+                        <div class="flex flex-col md:flex-row gap-2">
+                            <select id="bind-category-select" onchange="refreshAvailableAssets()" class="flex-1 border dark:border-gray-700 rounded p-2 text-xs bg-white dark:bg-gray-900">
+                                <option value="">-- Bind Category --</option>
+                                <option value="SIM">SIM Card</option>
+                                <option value="CAN">CAN Adapter</option>
+                                <option value="Device-Telematics">Device-Telematics</option>
+                            </select>
+                            <select id="bind-asset-select" class="flex-[2] border dark:border-gray-700 rounded p-2 text-xs bg-white dark:bg-gray-900">
+                                <option value="">-- Choose Available Asset --</option>
+                            </select>
+                            <button type="button" onclick="addBinding()" class="bg-indigo-600 text-white px-6 py-2 rounded font-bold text-[10px] uppercase">Link Asset</button>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-1">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Assigned Unit</label>
+                        <input type="text" id="assigned_unit" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800">
+                    </div>
+                    <div class="md:col-span-1">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Location</label>
+                        <input type="text" id="location" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Notes</label>
+                        <input type="text" id="notes" class="w-full border dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-800">
+                    </div>
+                </div>
+
+                <div class="p-5 border-t dark:border-gray-800 flex justify-end gap-3 bg-gray-50 dark:bg-gray-800/50">
+                    <button type="button" onclick="closeModal()" class="px-6 py-2 text-gray-500 font-bold text-[10px]">CANCEL</button>
+                    <button type="submit" class="bg-indigo-600 text-white px-10 py-2 rounded-lg font-black text-[10px] shadow-lg uppercase">Update Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let appData = { metadata: {}, inventory: [] };
+        let tempBoundAssets = [];
+        let currentPage = 1;
+        const rowsPerPage = 12;
+
+        window.onload = () => {
+            if (localStorage.theme === 'dark') document.documentElement.classList.add('dark');
+            const saved = localStorage.getItem('fleet_master_v33');
+            if (saved) {
+                appData = JSON.parse(saved);
+                renderTable();
+            }
+        };
+
+        function renderTable() {
+            const tbody = document.getElementById('inventory-body');
+            tbody.innerHTML = '';
+            
+            // Tampilkan semua data (tidak hanya telematics), tapi terapkan pencarian jika ada
+            const filtered = applySearchFilter(appData.inventory);
+            const paginated = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+
+            paginated.forEach((item) => {
+                // Cari index asli di inventory utama
+                const globalIdx = appData.inventory.findIndex(i => i.asset_code === item.asset_code);
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 dark:hover:bg-gray-800/50 transition border-b dark:border-gray-800';
+                
+                row.innerHTML = `
+                    <td class="sticky-left-no text-gray-400 font-mono">${item.no}</td>
+                    <td class="sticky-left-asset text-indigo-600 dark:text-indigo-400">${item.asset_code}</td>
+                    <td class="font-bold">${item.item_name || '-'}</td>
+                    <td class="text-gray-500">${item.category || '-'}</td>
+                    <td class="text-gray-400">${item.purchase_source || '-'}</td>
+                    <td class="font-mono text-gray-600 dark:text-gray-400">${item.serial_number || '-'}</td>
+                    <td>${item.sim_card_number || '-'}</td>
+                    <td class="font-mono text-[9px]">${item.sim_card_iccid || '-'}</td>
+                    <td class="text-indigo-500 font-bold text-[9px]">${Array.isArray(item.set_of) ? item.set_of.join(', ') : '-'}</td>
+                    <td>${item.qty || 1}</td>
+                    <td><span class="status-pill ${getStatusColor(item.status)}">${item.status || 'N/A'}</span></td>
+                    <td>${item.location || '-'}</td>
+                    <td>${item.assigned_to || '-'}</td>
+                    <td class="font-bold">${item.assigned_unit || '-'}</td>
+                    <td class="font-mono text-[9px]">${item.installed_unit_vin || '-'}</td>
+                    <td class="max-w-[150px] truncate">${item.notes || '-'}</td>
+                    <td class="sticky-right-action text-center">
+                        <button onclick="editItem(${globalIdx})" class="text-indigo-600 font-black hover:underline px-4">EDIT</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            updatePagination(filtered.length);
+            localStorage.setItem('fleet_master_v33', JSON.stringify(appData));
+        }
+
+        // SMART BINDING LOGIC
+        function refreshAvailableAssets() {
+            const mainCat = document.getElementById('category').value;
+            const bindCatSelect = document.getElementById('bind-category-select');
+            const assetSelect = document.getElementById('bind-asset-select');
+            const selfCode = document.getElementById('asset_code').value;
+            
+            // Rule: Device-Telematics hanya bisa bind dengan category lain (SIM/CAN)
+            if (mainCat === 'Device-Telematics') {
+                Array.from(bindCatSelect.options).forEach(opt => {
+                    if (opt.value === 'Device-Telematics') opt.disabled = true;
+                    else opt.disabled = false;
+                });
+            } else {
+                Array.from(bindCatSelect.options).forEach(opt => opt.disabled = false);
+            }
+
+            const selectedCat = bindCatSelect.value;
+            assetSelect.innerHTML = '<option value="">-- Choose Available Asset --</option>';
+            
+            if (!selectedCat) return;
+
+            // Cari item yang belum terikat di inventory manapun
+            const available = appData.inventory.filter(i => 
+                i.category === selectedCat && 
+                i.asset_code !== selfCode &&
+                !tempBoundAssets.includes(i.asset_code) &&
+                !appData.inventory.some(inv => inv.asset_code !== selfCode && inv.set_of?.includes(i.asset_code))
+            );
+
+            available.forEach(i => {
+                assetSelect.innerHTML += `<option value="${i.asset_code}">${i.asset_code} (${i.item_name})</option>`;
+            });
+        }
+
+        function addBinding() {
+            const val = document.getElementById('bind-asset-select').value;
+            if (val) { tempBoundAssets.push(val); renderBoundList(); refreshAvailableAssets(); }
+        }
+
+        function removeBinding(code) {
+            tempBoundAssets = tempBoundAssets.filter(c => c !== code);
+            renderBoundList(); refreshAvailableAssets();
+        }
+
+        function renderBoundList() {
+            const container = document.getElementById('bound-list');
+            container.innerHTML = tempBoundAssets.map(c => `
+                <span class="bg-indigo-600 text-white pl-3 pr-1 py-1 rounded-full text-[9px] font-bold flex items-center gap-2">
+                    ${c} <button type="button" onclick="removeBinding('${c}')" class="bg-indigo-800 rounded-full w-4 h-4 flex items-center justify-center hover:bg-red-500">&times;</button>
+                </span>
+            `).join('') || '<span class="text-[9px] text-gray-400 italic">No assets linked.</span>';
+        }
+
+        // PAGINATION & SEARCH
+        function updatePagination(total) {
+            const pages = Math.ceil(total / rowsPerPage) || 1;
+            const container = document.getElementById('pagination-controls');
+            container.innerHTML = '';
+            for (let i = 1; i <= pages; i++) {
+                const btn = document.createElement('button');
+                btn.innerText = i;
+                btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                btn.onclick = () => { currentPage = i; renderTable(); };
+                container.appendChild(btn);
+            }
+            document.getElementById('page-info').innerText = `Total: ${total} | Page ${currentPage} of ${pages}`;
+        }
+
+        function applySearchFilter(data) {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            if (!q) return data;
+            return data.filter(i => JSON.stringify(i).toLowerCase().includes(q));
+        }
+
+        function filterTable() { currentPage = 1; renderTable(); }
+
+        // CORE ACTIONS
+        document.getElementById('hw-form').onsubmit = (e) => {
+            e.preventDefault();
+            const idx = document.getElementById('edit-index').value;
+            const now = new Date().toLocaleString();
+            
+            const item = {
+                no: idx !== "" ? appData.inventory[idx].no : appData.inventory.length + 1,
+                asset_code: document.getElementById('asset_code').value,
+                item_name: document.getElementById('item_name').value,
+                category: document.getElementById('category').value,
+                serial_number: document.getElementById('serial_number').value,
+                sim_card_number: document.getElementById('sim_card_number').value,
+                sim_card_iccid: document.getElementById('sim_card_iccid').value,
+                status: document.getElementById('status').value,
+                location: document.getElementById('location').value,
+                assigned_unit: document.getElementById('assigned_unit').value,
+                qty: document.getElementById('qty').value,
+                notes: document.getElementById('notes').value,
+                set_of: [...tempBoundAssets],
+                history: idx !== "" ? (appData.inventory[idx].history || []) : []
+            };
+
+            // Tambahkan history sederhana jika ada perubahan
+            if (idx !== "") {
+                if (JSON.stringify(appData.inventory[idx].set_of) !== JSON.stringify(item.set_of)) {
+                    item.history.push({ date: now, action: "Binding Updated", detail: `Set of: ${item.set_of.join(', ')}` });
+                }
+            }
+
+            if (idx === "") appData.inventory.push(item);
+            else appData.inventory[idx] = item;
+
+            closeModal(); renderTable();
+        };
+
+        function editItem(i) {
+            const item = appData.inventory[i];
+            document.getElementById('edit-index').value = i;
+            document.getElementById('asset_code').value = item.asset_code;
+            document.getElementById('item_name').value = item.item_name || '';
+            document.getElementById('category').value = item.category || 'Device-Telematics';
+            document.getElementById('serial_number').value = item.serial_number || '';
+            document.getElementById('sim_card_number').value = item.sim_card_number || '';
+            document.getElementById('sim_card_iccid').value = item.sim_card_iccid || '';
+            document.getElementById('status').value = item.status || 'On Hand';
+            document.getElementById('location').value = item.location || '';
+            document.getElementById('assigned_unit').value = item.assigned_unit || '';
+            document.getElementById('qty').value = item.qty || 1;
+            document.getElementById('notes').value = item.notes || '';
+            
+            tempBoundAssets = Array.isArray(item.set_of) ? [...item.set_of] : [];
+            renderBoundList();
+            openModal();
+            refreshAvailableAssets();
+        }
+
+        // UTILS
+        function openModal() { document.getElementById('modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); document.getElementById('hw-form').reset(); tempBoundAssets=[]; document.getElementById('edit-index').value=""; }
+        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'; }
+        
+        function getStatusColor(s) {
+            if (s === 'On Trial') return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-500';
+            if (s === 'Broken') return 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400';
+            if (s === 'On Site') return 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400';
+            return 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400';
+        }
+
+        function exportData() {
+            const blob = new Blob([JSON.stringify(appData, null, 2)], {type:'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'fleet_inventory_v33.json'; a.click();
+        }
+
+        function importData(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const json = JSON.parse(event.target.result);
+                    // Pastikan struktur JSON benar (ada key inventory)
+                    if (json.inventory) {
+                        appData = json;
+                    } else if (Array.isArray(json)) {
+                        appData.inventory = json;
+                    }
+                    currentPage = 1;
+                    renderTable();
+                    alert("Import Berhasil! " + appData.inventory.length + " data dimuat.");
+                } catch (err) {
+                    alert("Error: File JSON tidak valid.");
+                }
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>

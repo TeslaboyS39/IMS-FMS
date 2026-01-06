@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Inventory Pro v4.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
+    <style>
+        .status-pill { @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide; }
+        .table-container { overflow-x: auto; overflow-y: auto; scrollbar-width: thin; }
+        th, td { white-space: nowrap; padding: 14px 18px; }
+        
+        /* Sticky Header with Solid Background */
+        thead th { 
+            position: sticky; 
+            top: 0; 
+            z-index: 10;
+            background-color: rgb(243, 244, 246); /* gray-100 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Dark mode header background */
+        .dark thead th {
+            background-color: rgb(31, 41, 55); /* gray-800 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Ensure modals are above everything */
+        #modal, #historyModal {
+            z-index: 9999 !important;
+        }
+        
+        /* Tab Buttons */
+        .tab-btn {
+            @apply px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-all;
+            @apply text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800;
+        }
+        .tab-btn.active {
+            @apply bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            @apply h-3 rounded-full transition-all duration-500;
+        }
+        
+        .page-btn { 
+            @apply px-4 py-2 border rounded-lg text-sm font-bold transition hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30; 
+        }
+        .page-btn.active { 
+            @apply bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700; 
+        }
+        
+        .bound-chip {
+            @apply bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md;
+        }
+        
+        .category-badge {
+            @apply inline-block px-2 py-0.5 rounded text-xs font-bold uppercase;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900 min-h-screen text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <!-- Navigation Tabs -->
+    <div class="bg-white dark:bg-gray-900 border-b dark:border-gray-800 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-[98%] mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex gap-4">
+                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active">
+                    📊 Dashboard
+                </button>
+                <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn">
+                    📦 Inventory
+                </button>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="toggleDarkMode()" class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 hover:scale-110 transition-transform">
+                    🌓
+                </button>
+                <input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(event)">
+                <button onclick="document.getElementById('importFile').click()" 
+                        class="bg-gray-200 dark:bg-gray-800 px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider hover:shadow-lg transition">
+                    📥 Import
+                </button>
+                <button onclick="exportData()" 
+                        class="bg-gradient-to-r from-gray-800 to-gray-700 dark:from-indigo-700 dark:to-indigo-800 text-white px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider hover:shadow-lg transition">
+                    📤 Export
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="dashboard-view" class="max-w-[98%] mx-auto py-6">
+        <div class="mb-6">
+            <h1 class="text-4xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                FLEET DASHBOARD
+            </h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Real-time fleet inventory insights & analytics</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <!-- Total Assets -->
+            <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl p-6 text-white shadow-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-indigo-100 text-sm font-semibold uppercase tracking-wide">Total Assets</p>
+                        <h3 class="text-4xl font-black mt-2" id="stat-total">0</h3>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <span class="text-3xl">📦</span>
+                    </div>
+                </div>
+                <p class="text-indigo-100 text-xs">All inventory items</p>
+            </div>
+
+            <!-- On Trial -->
+            <div class="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl p-6 text-white shadow-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-yellow-100 text-sm font-semibold uppercase tracking-wide">On Trial</p>
+                        <h3 class="text-4xl font-black mt-2" id="stat-trial">0</h3>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <span class="text-3xl">🧪</span>
+                    </div>
+                </div>
+                <p class="text-yellow-100 text-xs">Currently testing</p>
+            </div>
+
+            <!-- On Site -->
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-blue-100 text-sm font-semibold uppercase tracking-wide">On Site</p>
+                        <h3 class="text-4xl font-black mt-2" id="stat-site">0</h3>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <span class="text-3xl">🏗️</span>
+                    </div>
+                </div>
+                <p class="text-blue-100 text-xs">Deployed in field</p>
+            </div>
+
+            <!-- Broken Items (New Card) -->
+            <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-red-100 text-sm font-semibold uppercase tracking-wide">Broken Items</p>
+                        <h3 class="text-4xl font-black mt-2" id="stat-broken">0</h3>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <span class="text-3xl">⚠️</span>
+                    </div>
+                </div>
+                <p class="text-red-100 text-xs">Needs repair/return</p>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Category Distribution -->
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
+                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
+                    <span class="text-2xl">📊</span> Category Distribution
+                </h3>
+                <div id="category-chart" class="space-y-4"></div>
+            </div>
+
+            <!-- Status Distribution -->
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
+                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
+                    <span class="text-2xl">📈</span> Status Overview
+                </h3>
+                <div id="status-chart" class="space-y-4"></div>
+            </div>
+        </div>
+
+        <!-- Location & Recent Activity -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Top Locations -->
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
+                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
+                    <span class="text-2xl">📍</span> Top Locations
+                </h3>
+                <div id="location-list" class="space-y-3"></div>
+            </div>
+
+            <!-- Recent Changes -->
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
+                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
+                    <span class="text-2xl">🕐</span> Recent Activity
+                </h3>
+                <div id="recent-activity" class="space-y-3 max-h-[300px] overflow-y-auto"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory View -->
+    <div id="inventory-view" class="max-w-[98%] mx-auto py-6 hidden">
+        <!-- Header -->
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg mb-6 border dark:border-gray-800">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
+                <div>
+                    <h1 class="text-3xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        FLEET INVENTORY
+                    </h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Manage your fleet assets</p>
+                </div>
+                
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="openAddModal()" 
+                            class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl text-xs font-black shadow-lg uppercase hover:shadow-xl transition-all hover:scale-105">
+                        ✨ New Asset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Table Card -->
+        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border dark:border-gray-800 overflow-hidden">
+            <!-- Search Bar -->
+            <div class="p-4 border-b dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 bg-gray-50/50 dark:bg-gray-800/30">
+                <input type="text" 
+                       id="searchInput" 
+                       onkeyup="filterTable()" 
+                       placeholder="🔍 Search by Serial, Asset Code, Unit, Location..." 
+                       class="border dark:border-gray-700 bg-white dark:bg-gray-800 rounded-xl px-5 py-3 text-sm w-full md:w-96 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                <div id="page-info" class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase"></div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container max-h-[65vh]">
+                <table class="w-full text-left text-sm" id="inventoryTable">
+                    <thead class="uppercase text-xs font-black">
+                        <tr class="border-b-2 dark:border-gray-700">
+                            <th style="width: 60px;">No</th>
+                            <th style="width: 180px;">Asset Code</th>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Source</th>
+                            <th>Serial (IMEI)</th>
+                            <th>SIM Number</th>
+                            <th>SIM ICCID</th>
+                            <th>Linked Assets</th>
+                            <th>Qty</th>
+                            <th>Status</th>
+                            <th>Condition</th>
+                            <th>Location</th>
+                            <th>Assigned To</th>
+                            <th>Assigned Unit</th>
+                            <th>Unit VIN</th>
+                            <th>Notes</th>
+                            <th class="text-center" style="width: 120px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800" id="inventory-body"></tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="p-4 bg-gray-50 dark:bg-gray-900/50 border-t dark:border-gray-800 flex justify-center items-center gap-2" id="pagination-controls"></div>
+        </div>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4" style="z-index: 9999;">
+        <div class="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-6xl shadow-2xl max-h-[95vh] flex flex-col border-2 dark:border-gray-700">
+            <form id="hw-form" class="flex flex-col h-full overflow-hidden" onsubmit="saveItem(event)">
+                <!-- Modal Header -->
+                <div class="p-6 border-b-2 dark:border-gray-800 flex justify-between items-center bg-gradient-to-r from-indigo-600 to-purple-600">
+                    <div>
+                        <h3 class="text-xl font-black text-white uppercase" id="modal-title">Hardware Specification</h3>
+                        <p class="text-xs text-indigo-100 mt-1">Complete all required fields</p>
+                    </div>
+                    <button type="button" onclick="closeModal()" class="text-3xl text-white hover:text-red-300 transition font-bold">&times;</button>
+                </div>
+                
+                <!-- Modal Body -->
+                <div class="p-6 overflow-y-auto grid grid-cols-1 md:grid-cols-4 gap-5">
+                    <input type="hidden" id="edit-index">
+                    
+                    <!-- Basic Info -->
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Asset Code *</label>
+                        <input type="text" id="asset_code" required
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none focus:border-indigo-500 transition">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Item Name *</label>
+                        <select id="item_name" required onchange="autofillCategory()"
+                                class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none focus:border-indigo-500">
+                            <option value="">-- Select Item --</option>
+                            <option value="FMC 150">FMC 150</option>
+                            <option value="FMB 150">FMB 150</option>
+                            <option value="FMC 650">FMC 650</option>
+                            <option value="E Can">E Can</option>
+                            <option value="All Can 300">All Can 300</option>
+                            <option value="SIM Card">SIM Card</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Category *</label>
+                        <select id="category" required onchange="refreshAvailableAssets()"
+                                class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none">
+                            <option value="">-- Select --</option>
+                            <option value="Device-Telematics">Device-Telematics</option>
+                            <option value="CAN">CAN Adapter</option>
+                            <option value="SIM">SIM Card</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Purchase Source</label>
+                        <input type="text" id="purchase_source" placeholder="e.g., TMA"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none focus:border-indigo-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Status *</label>
+                        <select id="status" required
+                                class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800">
+                            <option value="On Hand">On Hand</option>
+                            <option value="On Trial">On Trial</option>
+                            <option value="On Site">On Site</option>
+                            <option value="Broken">Broken</option>
+                            <option value="R&D">R&D</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Quantity</label>
+                        <input type="number" id="qty" value="1" min="1"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Condition *</label>
+                        <select id="condition" required
+                                class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800">
+                            <option value="Good">Good</option>
+                            <option value="Broken">Broken</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Serial & SIM Info -->
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Serial Number (IMEI)</label>
+                        <input type="text" id="serial_number"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">SIM Number</label>
+                        <input type="text" id="sim_card_number"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">SIM ICCID</label>
+                        <input type="text" id="sim_card_iccid"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none font-mono">
+                    </div>
+
+                    <!-- Smart Binding Section -->
+                    <div class="md:col-span-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 p-6 rounded-2xl border-2 border-indigo-200 dark:border-indigo-800/50">
+                        <label class="block text-sm font-black text-indigo-700 dark:text-indigo-400 uppercase mb-4">
+                            🔗 Smart Asset Binding
+                        </label>
+                        <div id="bound-list" class="flex flex-wrap gap-3 mb-5 min-h-[50px] items-center"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <select id="bind-category-select" onchange="refreshAvailableAssets()" 
+                                    class="border-2 dark:border-gray-600 rounded-xl p-3 text-sm bg-white dark:bg-gray-900 outline-none focus:border-indigo-500">
+                                <option value="">-- Select Category to Bind --</option>
+                                <option value="SIM">SIM Card</option>
+                                <option value="CAN">CAN Adapter</option>
+                                <option value="Device-Telematics">Device-Telematics</option>
+                            </select>
+                            <select id="bind-asset-select" 
+                                    class="border-2 dark:border-gray-600 rounded-xl p-3 text-sm bg-white dark:bg-gray-900 outline-none">
+                                <option value="">-- Select Available Asset --</option>
+                            </select>
+                            <button type="button" onclick="addBinding()" 
+                                    class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold text-sm uppercase hover:shadow-lg transition-all hover:scale-105">
+                                + Link Asset
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-3 italic">
+                            💡 Tip: Device-Telematics can only bind with CAN or SIM categories
+                        </p>
+                    </div>
+
+                    <!-- Assignment Info -->
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Location</label>
+                        <input type="text" id="location" placeholder="e.g., HO, IMIP, Kabaena"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Assigned To</label>
+                        <input type="text" id="assigned_to" placeholder="e.g., PT ACSL, Internal"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Assigned Unit</label>
+                        <input type="text" id="assigned_unit" placeholder="e.g., DT 09 Shacman X3000"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Installed Unit VIN</label>
+                        <input type="text" id="installed_unit_vin" placeholder="e.g., LZGJRDV6XSX018863"
+                               class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none font-mono">
+                    </div>
+                    <div class="md:col-span-4">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Notes</label>
+                        <textarea id="notes" rows="2" placeholder="Additional information..."
+                                  class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none resize-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="p-6 border-t-2 dark:border-gray-800 flex justify-end gap-4 bg-gray-50 dark:bg-gray-800/50">
+                    <button type="button" onclick="closeModal()" 
+                            class="px-8 py-3 text-gray-600 dark:text-gray-400 font-bold text-sm uppercase hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-12 py-3 rounded-xl font-black text-sm shadow-lg uppercase hover:shadow-xl transition-all hover:scale-105">
+                        💾 Save Asset
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="historyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4" style="z-index: 9999;">
+        <div class="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-3xl shadow-2xl border-2 dark:border-gray-700 max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b-2 dark:border-gray-800 flex justify-between items-center bg-gradient-to-r from-purple-600 to-pink-600">
+                <h3 class="text-xl font-black text-white uppercase">📋 Asset History</h3>
+                <button onclick="closeHistoryModal()" class="text-3xl text-white hover:text-red-300 transition">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto" id="historyContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let appData = { metadata: { last_updated: new Date().toISOString() }, inventory: [] };
+        let tempBoundAssets = [];
+        let currentPage = 1;
+        const rowsPerPage = 15;
+
+        // Initialize
+        window.onload = () => {
+            if (localStorage.theme === 'dark') document.documentElement.classList.add('dark');
+            const saved = localStorage.getItem('fleet_master_v4');
+            if (saved) {
+                appData = JSON.parse(saved);
+                renderTable();
+                renderDashboard();
+            }
+        };
+
+        // Tab Switching
+        function switchTab(tab) {
+            const tabs = ['dashboard', 'inventory'];
+            tabs.forEach(t => {
+                document.getElementById(`tab-${t}`).classList.remove('active');
+                document.getElementById(`${t}-view`).classList.add('hidden');
+            });
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            document.getElementById(`${tab}-view`).classList.remove('hidden');
+            
+            if (tab === 'dashboard') renderDashboard();
+        }
+
+        // Render Dashboard
+        function renderDashboard() {
+            const inv = appData.inventory;
+            
+            // Stats
+            document.getElementById('stat-total').textContent = inv.length;
+            document.getElementById('stat-trial').textContent = inv.filter(i => i.status === 'On Trial').length;
+            document.getElementById('stat-site').textContent = inv.filter(i => i.status === 'On Site').length;
+            document.getElementById('stat-broken').textContent = inv.filter(i => i.condition === 'Broken').length;
+            
+            // Category Chart
+            const categories = {};
+            inv.forEach(i => {
+                categories[i.category] = (categories[i.category] || 0) + 1;
+            });
+            
+            const categoryChart = document.getElementById('category-chart');
+            const total = inv.length || 1;
+            categoryChart.innerHTML = Object.entries(categories).map(([cat, count]) => {
+                const percentage = ((count / total) * 100).toFixed(1);
+                const colors = {
+                    'Device-Telematics': 'bg-indigo-500',
+                    'CAN': 'bg-emerald-500',
+                    'SIM': 'bg-orange-500'
+                };
+                return `
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-gray-700 dark:text-gray-300">${cat}</span>
+                            <span class="text-sm font-black text-gray-900 dark:text-white">${count} (${percentage}%)</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+                            <div class="progress-bar ${colors[cat] || 'bg-gray-500'}" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Status Chart
+            const statuses = {};
+            inv.forEach(i => {
+                statuses[i.status] = (statuses[i.status] || 0) + 1;
+            });
+            
+            const statusChart = document.getElementById('status-chart');
+            statusChart.innerHTML = Object.entries(statuses).map(([status, count]) => {
+                const percentage = ((count / total) * 100).toFixed(1);
+                const colors = {
+                    'On Trial': 'bg-yellow-500',
+                    'On Site': 'bg-blue-500',
+                    'On Hand': 'bg-green-500',
+                    'Broken': 'bg-red-500',
+                    'R&D': 'bg-purple-500'
+                };
+                return `
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-gray-700 dark:text-gray-300">${status}</span>
+                            <span class="text-sm font-black text-gray-900 dark:text-white">${count} (${percentage}%)</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+                            <div class="progress-bar ${colors[status] || 'bg-gray-500'}" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Top Locations
+            const locations = {};
+            inv.forEach(i => {
+                if (i.location) locations[i.location] = (locations[i.location] || 0) + 1;
+            });
+            
+            const locationList = document.getElementById('location-list');
+            const topLocations = Object.entries(locations).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            locationList.innerHTML = topLocations.length > 0 ? topLocations.map(([loc, count]) => `
+                <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">📍</span>
+                        <span class="font-bold text-gray-800 dark:text-gray-200">${loc}</span>
+                    </div>
+                    <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-black">${count}</span>
+                </div>
+            `).join('') : '<p class="text-gray-400 text-sm italic text-center">No location data</p>';
+            
+            // Recent Activity
+            const recentActivity = document.getElementById('recent-activity');
+            const allHistory = [];
+            inv.forEach(item => {
+                if (item.history && item.history.length > 0) {
+                    item.history.forEach(h => {
+                        allHistory.push({ ...h, asset: item.asset_code });
+                    });
+                }
+            });
+            
+            allHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const recent = allHistory.slice(0, 10);
+            
+            recentActivity.innerHTML = recent.length > 0 ? recent.map(h => `
+                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border-l-4 border-indigo-500">
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">${h.asset}</span>
+                        <span class="text-xs text-gray-500">${h.date}</span>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-400">${h.action}: ${h.changes}</p>
+                </div>
+            `).join('') : '<p class="text-gray-400 text-sm italic text-center">No recent activity</p>';
+        }
+
+        // Auto-fill category based on item name
+        function autofillCategory() {
+            const itemName = document.getElementById('item_name').value;
+            const categoryMap = {
+                'FMC 150': 'Device-Telematics',
+                'FMB 150': 'Device-Telematics',
+                'FMC 650': 'Device-Telematics',
+                'E Can': 'CAN',
+                'All Can 300': 'CAN',
+                'SIM Card': 'SIM'
+            };
+            const category = categoryMap[itemName] || '';
+            document.getElementById('category').value = category;
+            refreshAvailableAssets();
+        }
+
+        // Render Table
+        function renderTable() {
+            const tbody = document.getElementById('inventory-body');
+            tbody.innerHTML = '';
+            
+            const filtered = applySearchFilter(appData.inventory);
+            const paginated = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+
+            paginated.forEach((item) => {
+                const globalIdx = appData.inventory.findIndex(i => i.asset_code === item.asset_code);
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-indigo-50 dark:hover:bg-gray-800/70 transition-colors border-b dark:border-gray-800';
+                
+                const linkedAssets = Array.isArray(item.set_of) && item.set_of.length > 0
+                    ? item.set_of.map(code => `<span class="inline-block bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded text-xs font-bold m-0.5">${code}</span>`).join('')
+                    : '<span class="text-gray-400 text-xs italic">No links</span>';
+                
+                row.innerHTML = `
+                    <td class="text-gray-500 dark:text-gray-400 font-mono font-bold">${item.no}</td>
+                    <td>
+                        <span class="text-indigo-600 dark:text-indigo-400 font-black">${item.asset_code}</span>
+                    </td>
+                    <td class="font-bold text-gray-800 dark:text-gray-200">${item.item_name || '-'}</td>
+                    <td><span class="category-badge ${getCategoryColor(item.category)}">${item.category || '-'}</span></td>
+                    <td class="text-gray-600 dark:text-gray-400">${item.purchase_source || '-'}</td>
+                    <td class="font-mono text-gray-700 dark:text-gray-300 text-xs">${item.serial_number || '-'}</td>
+                    <td class="text-sm">${item.sim_card_number || '-'}</td>
+                    <td class="font-mono text-xs text-gray-600 dark:text-gray-400">${item.sim_card_iccid || '-'}</td>
+                    <td class="max-w-xs">${linkedAssets}</td>
+                    <td class="text-center font-bold">${item.qty || 1}</td>
+                    <td><span class="status-pill ${getStatusColor(item.status)}">${item.status || 'N/A'}</span></td>
+                    <td><span class="status-pill ${getConditionColor(item.condition)}">${item.condition || 'Good'}</span></td>
+                    <td class="text-sm">${item.location || '-'}</td>
+                    <td class="text-sm">${item.assigned_to || '-'}</td>
+                    <td class="font-semibold text-sm">${item.assigned_unit || '-'}</td>
+                    <td class="font-mono text-xs text-gray-600">${item.installed_unit_vin || '-'}</td>
+                    <td class="max-w-[200px] truncate text-xs text-gray-600 dark:text-gray-400">${item.notes || '-'}</td>
+                    <td class="text-center">
+                        <button onclick="editItem(${globalIdx})" class="text-indigo-600 dark:text-indigo-400 font-black hover:underline text-sm mr-2">✏️</button>
+                        <button onclick="viewHistory(${globalIdx})" class="text-purple-600 dark:text-purple-400 font-black hover:underline text-sm mr-2">📋</button>
+                        <button onclick="deleteItem(${globalIdx})" class="text-red-600 dark:text-red-400 font-black hover:underline text-sm">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            updatePagination(filtered.length);
+            saveToStorage();
+        }
+
+        // Smart Binding System
+        function refreshAvailableAssets() {
+            const mainCat = document.getElementById('category').value;
+            const bindCatSelect = document.getElementById('bind-category-select');
+            const assetSelect = document.getElementById('bind-asset-select');
+            const selfCode = document.getElementById('asset_code').value;
+            
+            // Rule: Device-Telematics can only bind with other categories
+            Array.from(bindCatSelect.options).forEach(opt => {
+                if (mainCat === 'Device-Telematics' && opt.value === 'Device-Telematics') {
+                    opt.disabled = true;
+                } else if (mainCat !== 'Device-Telematics' && mainCat !== '' && opt.value === mainCat) {
+                    opt.disabled = true;
+                } else {
+                    opt.disabled = false;
+                }
+            });
+
+            const selectedCat = bindCatSelect.value;
+            assetSelect.innerHTML = '<option value="">-- Select Available Asset --</option>';
+            
+            if (!selectedCat) return;
+
+            // Find unbound assets
+            const available = appData.inventory.filter(i => 
+                i.category === selectedCat && 
+                i.asset_code !== selfCode &&
+                !tempBoundAssets.includes(i.asset_code) &&
+                !appData.inventory.some(inv => inv.asset_code !== selfCode && inv.set_of?.includes(i.asset_code))
+            );
+
+            available.forEach(i => {
+                assetSelect.innerHTML += `<option value="${i.asset_code}">${i.asset_code} - ${i.item_name}</option>`;
+            });
+        }
+
+        function addBinding() {
+            const val = document.getElementById('bind-asset-select').value;
+            if (val && !tempBoundAssets.includes(val)) { 
+                tempBoundAssets.push(val); 
+                renderBoundList(); 
+                refreshAvailableAssets(); 
+            }
+        }
+
+        function removeBinding(code) {
+            tempBoundAssets = tempBoundAssets.filter(c => c !== code);
+            renderBoundList(); 
+            refreshAvailableAssets();
+        }
+
+        function renderBoundList() {
+            const container = document.getElementById('bound-list');
+            if (tempBoundAssets.length === 0) {
+                container.innerHTML = '<span class="text-sm text-gray-400 italic">No assets linked yet...</span>';
+                return;
+            }
+            container.innerHTML = tempBoundAssets.map(c => `
+                <span class="bound-chip">
+                    ${c} 
+                    <button type="button" onclick="removeBinding('${c}')" 
+                            class="bg-red-500 hover:bg-red-600 rounded-full w-5 h-5 flex items-center justify-center transition">
+                        &times;
+                    </button>
+                </span>
+            `).join('');
+        }
+
+        // CRUD Operations
+        function saveItem(e) {
+            e.preventDefault();
+            const idx = document.getElementById('edit-index').value;
+            const now = new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' });
+            const isEdit = idx !== "";
+            
+            const item = {
+                no: isEdit ? appData.inventory[idx].no : appData.inventory.length + 1,
+                asset_code: document.getElementById('asset_code').value,
+                item_name: document.getElementById('item_name').value,
+                category: document.getElementById('category').value,
+                purchase_source: document.getElementById('purchase_source').value,
+                serial_number: document.getElementById('serial_number').value,
+                sim_card_number: document.getElementById('sim_card_number').value,
+                sim_card_iccid: document.getElementById('sim_card_iccid').value,
+                status: document.getElementById('status').value,
+                condition: document.getElementById('condition').value,
+                location: document.getElementById('location').value,
+                assigned_to: document.getElementById('assigned_to').value,
+                assigned_unit: document.getElementById('assigned_unit').value,
+                installed_unit_vin: document.getElementById('installed_unit_vin').value,
+                qty: parseInt(document.getElementById('qty').value) || 1,
+                notes: document.getElementById('notes').value,
+                set_of: [...tempBoundAssets],
+                history: isEdit ? (appData.inventory[idx].history || []) : [],
+                created_at: isEdit ? appData.inventory[idx].created_at : new Date().toISOString(),
+                last_modified: new Date().toISOString()
+            };
+
+            // Add history entry
+            if (isEdit) {
+                const changes = [];
+                const oldItem = appData.inventory[idx];
+                
+                if (oldItem.status !== item.status) 
+                    changes.push(`Status: ${oldItem.status || 'N/A'} → ${item.status}`);
+                
+                if (oldItem.condition !== item.condition)
+                    changes.push(`Condition: ${oldItem.condition || 'Good'} → ${item.condition}`);
+                
+                if (oldItem.location !== item.location) 
+                    changes.push(`Location: ${oldItem.location || 'N/A'} → ${item.location || 'N/A'}`);
+                
+                if (oldItem.assigned_unit !== item.assigned_unit) 
+                    changes.push(`Unit: ${oldItem.assigned_unit || 'N/A'} → ${item.assigned_unit || 'N/A'}`);
+                
+                if (oldItem.assigned_to !== item.assigned_to)
+                    changes.push(`Assigned To: ${oldItem.assigned_to || 'N/A'} → ${item.assigned_to || 'N/A'}`);
+                
+                const oldBindings = (oldItem.set_of || []).sort().join(',');
+                const newBindings = (item.set_of || []).sort().join(',');
+                if (oldBindings !== newBindings) 
+                    changes.push(`Linked Assets: [${oldItem.set_of?.join(', ') || 'None'}] → [${item.set_of?.join(', ') || 'None'}]`);
+                
+                if (changes.length > 0) {
+                    item.history.push({
+                        date: now,
+                        action: 'Updated',
+                        changes: changes.join(' | '),
+                        user: 'System'
+                    });
+                }
+            } else {
+                item.history.push({
+                    date: now,
+                    action: 'Created',
+                    changes: 'Initial record created',
+                    user: 'System'
+                });
+            }
+
+            if (isEdit) {
+                appData.inventory[idx] = item;
+            } else {
+                appData.inventory.push(item);
+            }
+
+            closeModal(); 
+            renderTable();
+            renderDashboard();
+            alert(isEdit ? '✅ Asset updated successfully!' : '✅ New asset added successfully!');
+        }
+
+        function editItem(i) {
+            const item = appData.inventory[i];
+            document.getElementById('edit-index').value = i;
+            document.getElementById('asset_code').value = item.asset_code;
+            document.getElementById('item_name').value = item.item_name || '';
+            document.getElementById('category').value = item.category || '';
+            document.getElementById('purchase_source').value = item.purchase_source || '';
+            document.getElementById('serial_number').value = item.serial_number || '';
+            document.getElementById('sim_card_number').value = item.sim_card_number || '';
+            document.getElementById('sim_card_iccid').value = item.sim_card_iccid || '';
+            document.getElementById('status').value = item.status || 'On Hand';
+            document.getElementById('condition').value = item.condition || 'Good';
+            document.getElementById('location').value = item.location || '';
+            document.getElementById('assigned_to').value = item.assigned_to || '';
+            document.getElementById('assigned_unit').value = item.assigned_unit || '';
+            document.getElementById('installed_unit_vin').value = item.installed_unit_vin || '';
+            document.getElementById('qty').value = item.qty || 1;
+            document.getElementById('notes').value = item.notes || '';
+            
+            tempBoundAssets = Array.isArray(item.set_of) ? [...item.set_of] : [];
+            renderBoundList();
+            openModal();
+            document.getElementById('modal-title').textContent = 'Edit Hardware Specification';
+            refreshAvailableAssets();
+        }
+
+        function deleteItem(i) {
+            if (confirm('⚠️ Are you sure you want to delete this asset?')) {
+                appData.inventory.splice(i, 1);
+                // Reindex
+                appData.inventory.forEach((item, idx) => item.no = idx + 1);
+                renderTable();
+                renderDashboard();
+                alert('🗑️ Asset deleted successfully!');
+            }
+        }
+
+        function viewHistory(i) {
+            const item = appData.inventory[i];
+            const history = item.history || [];
+            const content = document.getElementById('historyContent');
+            
+            if (history.length === 0) {
+                content.innerHTML = '<p class="text-gray-500 text-center italic">No history available for this asset.</p>';
+            } else {
+                content.innerHTML = `
+                    <div class="mb-4">
+                        <h4 class="font-bold text-lg mb-2">Asset: <span class="text-indigo-600">${item.asset_code}</span></h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">${item.item_name} - ${item.category}</p>
+                    </div>
+                    <div class="space-y-3">
+                        ${history.map((h, idx) => `
+                            <div class="border-l-4 border-indigo-500 pl-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-r-lg">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="font-bold text-indigo-600 dark:text-indigo-400">${h.action}</span>
+                                    <span class="text-xs text-gray-500">${h.date}</span>
+                                </div>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">${h.changes}</p>
+                                ${h.user ? `<p class="text-xs text-gray-500 mt-1">by ${h.user}</p>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            document.getElementById('historyModal').classList.remove('hidden');
+        }
+
+        // Modal Controls
+        function openAddModal() {
+            document.getElementById('hw-form').reset();
+            document.getElementById('edit-index').value = '';
+            document.getElementById('modal-title').textContent = 'New Hardware Specification';
+            tempBoundAssets = [];
+            renderBoundList();
+            openModal();
+        }
+
+        function openModal() { 
+            document.getElementById('modal').classList.remove('hidden'); 
+            refreshAvailableAssets();
+        }
+
+        function closeModal() { 
+            document.getElementById('modal').classList.add('hidden'); 
+            document.getElementById('hw-form').reset(); 
+            tempBoundAssets = []; 
+            document.getElementById('edit-index').value = '';
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').classList.add('hidden');
+        }
+
+        // Pagination & Search
+        function updatePagination(total) {
+            const pages = Math.ceil(total / rowsPerPage) || 1;
+            const container = document.getElementById('pagination-controls');
+            container.innerHTML = '';
+            
+            // Previous button
+            const prevBtn = document.createElement('button');
+            prevBtn.innerHTML = '← Prev';
+            prevBtn.className = 'page-btn';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { currentPage--; renderTable(); };
+            container.appendChild(prevBtn);
+            
+            // Page numbers
+            for (let i = 1; i <= pages; i++) {
+                if (i === 1 || i === pages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    const btn = document.createElement('button');
+                    btn.innerText = i;
+                    btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                    btn.onclick = () => { currentPage = i; renderTable(); };
+                    container.appendChild(btn);
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    const dots = document.createElement('span');
+                    dots.innerText = '...';
+                    dots.className = 'px-2 text-gray-400';
+                    container.appendChild(dots);
+                }
+            }
+            
+            // Next button
+            const nextBtn = document.createElement('button');
+            nextBtn.innerHTML = 'Next →';
+            nextBtn.className = 'page-btn';
+            nextBtn.disabled = currentPage === pages;
+            nextBtn.onclick = () => { currentPage++; renderTable(); };
+            container.appendChild(nextBtn);
+            
+            document.getElementById('page-info').innerText = `Showing ${((currentPage - 1) * rowsPerPage) + 1}-${Math.min(currentPage * rowsPerPage, total)} of ${total} assets | Page ${currentPage}/${pages}`;
+        }
+
+        function applySearchFilter(data) {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!q) return data;
+            return data.filter(i => 
+                (i.asset_code?.toLowerCase().includes(q)) ||
+                (i.serial_number?.toString().toLowerCase().includes(q)) ||
+                (i.assigned_unit?.toLowerCase().includes(q)) ||
+                (i.location?.toLowerCase().includes(q)) ||
+                (i.item_name?.toLowerCase().includes(q)) ||
+                (i.notes?.toLowerCase().includes(q))
+            );
+        }
+
+        function filterTable() { 
+            currentPage = 1; 
+            renderTable(); 
+        }
+
+        // Import/Export
+        function exportData() {
+            appData.metadata.last_updated = new Date().toISOString();
+            appData.metadata.total_records = appData.inventory.length;
+            const blob = new Blob([JSON.stringify(appData, null, 2)], {type: 'application/json'});
+            const a = document.createElement('a');
+            const timestamp = new Date().toISOString().split('T')[0];
+            a.href = URL.createObjectURL(blob);
+            a.download = `fleet_inventory_${timestamp}.json`;
+            a.click();
+            alert('📤 Data exported successfully!');
+        }
+
+        function importData(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const json = JSON.parse(event.target.result);
+                    
+                    if (json.inventory && Array.isArray(json.inventory)) {
+                        appData = json;
+                    } else if (Array.isArray(json)) {
+                        appData.inventory = json;
+                        appData.metadata = { last_updated: new Date().toISOString() };
+                    } else {
+                        throw new Error('Invalid JSON structure');
+                    }
+                    
+                    // Ensure all items have history array and condition field
+                    appData.inventory.forEach(item => {
+                        if (!item.history) item.history = [];
+                        if (!item.condition) item.condition = 'Good'; // Default condition
+                    });
+                    
+                    currentPage = 1;
+                    renderTable();
+                    renderDashboard();
+                    alert(`📥 Import successful! ${appData.inventory.length} assets loaded.`);
+                } catch (err) {
+                    alert('❌ Error: Invalid JSON file. Please check the file format.');
+                    console.error(err);
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = ''; // Reset input
+        }
+
+        // Utility Functions
+        function saveToStorage() {
+            appData.metadata.last_updated = new Date().toISOString();
+            localStorage.setItem('fleet_master_v4', JSON.stringify(appData));
+        }
+
+        function toggleDarkMode() { 
+            document.documentElement.classList.toggle('dark'); 
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'; 
+        }
+        
+        function getStatusColor(s) {
+            const colors = {
+                'On Trial': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-400',
+                'Broken': 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-400',
+                'On Site': 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-400',
+                'On Hand': 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-400',
+                'R&D': 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-400'
+            };
+            return colors[s] || 'bg-gray-100 text-gray-800 dark:bg-gray-900/40 dark:text-gray-400';
+        }
+
+        function getCategoryColor(c) {
+            const colors = {
+                'Device-Telematics': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300',
+                'CAN': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300',
+                'SIM': 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300'
+            };
+            return colors[c] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getConditionColor(c) {
+            const colors = {
+                'Good': 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-400',
+                'Broken': 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-400'
+            };
+            return colors[c] || 'bg-gray-100 text-gray-800';
+        }
+    </script>
+</body>
+</html>
