@@ -415,17 +415,27 @@
                             <option value="E Can">E Can</option>
                             <option value="All Can 300">All Can 300</option>
                             <option value="SIM Card">SIM Card</option>
+                            <option value="MDVR">MDVR</option>
+                            <option value="ADAS Camera">ADAS Camera</option>
+                            <option value="DMS Camera">DMS Camera</option>
+                            <option value="Others Camera">Others Camera</option>
+                            <option value="Camera SIM Card">Camera SIM Card</option>
                         </select>
                     </div>
                     
                     <div>
                         <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Category *</label>
-                        <select id="category" required onchange="refreshAvailableAssets(); updateAssetPeek();"
+                        <select id="category" required onchange="refreshAvailableAssets(); updateAssetPeek(); toggleCameraPackage();"
                                 class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none">
                             <option value="">-- Select --</option>
                             <option value="Device-Telematics">Device-Telematics</option>
                             <option value="CAN">CAN Adapter</option>
                             <option value="SIM">SIM Card</option>
+                            <option value="MDVR">MDVR</option>
+                            <option value="ADAS-Camera">ADAS Camera</option>
+                            <option value="DMS-Camera">DMS Camera</option>
+                            <option value="Others-Camera">Others Camera</option>
+                            <option value="Camera-SIM">Camera SIM Card</option>
                         </select>
                     </div>
                     
@@ -461,7 +471,19 @@
                             <option value="Broken">Broken</option>
                         </select>
                     </div>
-                    
+
+                    <!-- Camera Package (hidden by default) -->
+                    <div id="camera-package-container" class="hidden">
+                        <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Camera Package</label>
+                        <select id="camera_package"
+                                class="w-full border-2 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 outline-none focus:border-indigo-500">
+                            <option value="">-- Select Package --</option>
+                            <option value="Base">Base</option>
+                            <option value="Plus">Plus</option>
+                            <option value="Pro+">Pro+</option>
+                        </select>
+                    </div>
+
                     <!-- Serial & SIM Info -->
                     <div class="md:col-span-2">
                         <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Serial Number (IMEI)</label>
@@ -745,11 +767,31 @@
                 'FMC 650': 'Device-Telematics',
                 'E Can': 'CAN',
                 'All Can 300': 'CAN',
-                'SIM Card': 'SIM'
+                'SIM Card': 'SIM',
+                'MDVR': 'MDVR',
+                'ADAS Camera': 'ADAS-Camera',
+                'DMS Camera': 'DMS-Camera',
+                'Others Camera': 'Others-Camera',
+                'Camera SIM Card': 'Camera-SIM'
             };
             const category = categoryMap[itemName] || '';
             document.getElementById('category').value = category;
             refreshAvailableAssets();
+            toggleCameraPackage();
+        }
+
+        // Toggle Camera Package dropdown visibility
+        function toggleCameraPackage() {
+            const category = document.getElementById('category').value;
+            const container = document.getElementById('camera-package-container');
+            const cameraCategories = ['ADAS-Camera', 'DMS-Camera', 'Others-Camera'];
+
+            if (cameraCategories.includes(category)) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+                document.getElementById('camera_package').value = '';
+            }
         }
 
         // Render Table
@@ -919,6 +961,7 @@
                 serial_number: document.getElementById('serial_number').value,
                 sim_card_number: document.getElementById('sim_card_number').value,
                 sim_card_iccid: document.getElementById('sim_card_iccid').value,
+                camera_package: document.getElementById('camera_package').value,
                 status: document.getElementById('status').value,
                 condition: document.getElementById('condition').value,
                 location: document.getElementById('location').value,
@@ -1049,6 +1092,7 @@
             document.getElementById('serial_number').value = item.serial_number || '';
             document.getElementById('sim_card_number').value = item.sim_card_number || '';
             document.getElementById('sim_card_iccid').value = item.sim_card_iccid || '';
+            document.getElementById('camera_package').value = item.camera_package || '';
             document.getElementById('status').value = item.status || 'On Hand';
             document.getElementById('condition').value = item.condition || 'Good';
             document.getElementById('location').value = item.location || '';
@@ -1057,15 +1101,16 @@
             document.getElementById('installed_unit_vin').value = item.installed_unit_vin || '';
             document.getElementById('qty').value = item.qty || 1;
             document.getElementById('notes').value = item.notes || '';
-            
+
             tempBoundAssets = Array.isArray(item.set_of) ? [...item.set_of] : [];
             renderBoundList();
             openModal();
             document.getElementById('modal-title').textContent = 'Edit Hardware Specification';
             refreshAvailableAssets();
+            toggleCameraPackage();
 
             updateAssetPeek();
-            openModal();    
+            openModal();
         }
 
         function deleteItem(i) {
@@ -1146,11 +1191,12 @@
             refreshAvailableAssets();
         }
 
-        function closeModal() { 
-            document.getElementById('modal').classList.add('hidden'); 
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
             document.getElementById('peek-container').classList.add('hidden');
-            document.getElementById('hw-form').reset(); 
-            tempBoundAssets = []; 
+            document.getElementById('camera-package-container').classList.add('hidden');
+            document.getElementById('hw-form').reset();
+            tempBoundAssets = [];
             document.getElementById('edit-index').value = '';
 
             renderBoundList();
