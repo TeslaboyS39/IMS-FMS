@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-IMS-FMS (Inventory Management System - Fleet Management System) is a self-contained single-page web application for managing fleet telematics assets. It tracks devices (FMC 150, FMB 150, FMC 650), CAN adapters (E Can, All Can 300), and SIM cards with smart hardware-to-SIM binding capabilities.
+IMS-FMS (Inventory Management System - Fleet Management System) is a self-contained single-page web application for managing fleet telematics assets. It tracks devices (FMC 150, FMB 150, FMC 650), CAN adapters (E Can, All Can 300), SIM cards, MDVR units, and camera systems (ADAS, DMS, Others) with smart hardware-to-SIM binding capabilities.
 
 ## Running the Application
 
@@ -33,8 +33,8 @@ appData = {
   inventory: [
     {
       no, asset_code, item_name, category, serial_number,
-      sim_card_number, sim_card_iccid, status, condition,
-      location, assigned_to, assigned_unit, installed_unit_vin,
+      sim_card_number, sim_card_iccid, camera_package,  // Base, Plus, Pro+ (for camera categories)
+      status, condition, location, assigned_to, assigned_unit, installed_unit_vin,
       set_of: [],      // Linked asset codes (binding)
       history: [],     // Audit trail of changes
       created_at, last_modified
@@ -42,6 +42,19 @@ appData = {
   ]
 }
 ```
+
+### Asset Categories
+
+| Category | Item Names |
+|----------|------------|
+| Device-Telematics | FMC 150, FMB 150, FMC 650 |
+| CAN | E Can, All Can 300 |
+| SIM | SIM Card |
+| MDVR | MDVR |
+| ADAS-Camera | ADAS Camera |
+| DMS-Camera | DMS Camera |
+| Others-Camera | Others Camera |
+| Camera-SIM | Camera SIM Card |
 
 ### Three Main Views
 
@@ -60,12 +73,15 @@ appData = {
 | `addBinding()` / `removeBinding()` | Smart asset linking (Device ↔ SIM/CAN) |
 | `exportData()` / `importData(e)` | JSON data portability |
 | `viewHistory(i)` | Display audit trail modal |
+| `autofillCategory()` | Auto-select category based on item name |
+| `toggleCameraPackage()` | Show/hide Camera Package dropdown for camera categories |
 
 ### Smart Features
 
 - **Asset binding:** Device-Telematics can only bind with CAN or SIM categories
 - **Asset code peek:** Shows previously used codes for quick reference
 - **Auto-fill category:** Based on item name selection
+- **Camera package selector:** Dropdown (Base/Plus/Pro+) appears only for camera categories (ADAS, DMS, Others)
 - **Audit trail:** Automatic change tracking (status, condition, location, bindings)
 
 ## Storage
