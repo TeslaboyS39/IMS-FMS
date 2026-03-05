@@ -32,29 +32,23 @@
             z-index: 9999 !important;
         }
         
-        /* Tab Buttons */
-        .tab-btn {
-            @apply px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-all;
-            @apply text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800;
+        /* Nav Tabs */
+        .nav-tab {
+            @apply text-[13px] font-medium text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors;
         }
-        .tab-btn.active {
-            @apply bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg;
+        .nav-tab.active {
+            @apply text-gray-900 dark:text-white font-semibold;
         }
-        
-        /* Progress Bar */
-        .progress-bar {
-            @apply h-3 rounded-full transition-all duration-500;
+
+        .page-btn {
+            @apply px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-md text-sm font-medium transition text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-30;
         }
-        
-        .page-btn { 
-            @apply px-4 py-2 border rounded-lg text-sm font-bold transition hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30; 
+        .page-btn.active {
+            @apply bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 border-gray-900 dark:border-gray-100;
         }
-        .page-btn.active { 
-            @apply bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700; 
-        }
-        
+
         .bound-chip {
-            @apply bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-md;
+            @apply bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2;
         }
         
         .category-badge {
@@ -64,148 +58,110 @@
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900 min-h-screen text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-    <!-- Navigation Tabs -->
-    <div class="bg-white dark:bg-gray-900 border-b dark:border-gray-800 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-[98%] mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex gap-4">
-                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active">
-                    📊 Dashboard
-                </button>
-                <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn">
-                    📦 Inventory
-                </button>
-                <button onclick="switchTab('download')" id="tab-download" class="tab-btn">
-                    💾 Download
-                </button>
+    <!-- Navigation -->
+    <div class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50">
+        <div class="max-w-[98%] mx-auto px-8 h-16 flex items-center justify-between">
+
+            <!-- Left: Logo + Nav -->
+            <div class="flex items-center gap-10">
+                <!-- Logo -->
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-3.5 h-3.5 text-white dark:text-gray-900" viewBox="0 0 10 10" fill="currentColor">
+                            <rect x="0" y="0" width="4" height="4" rx="0.8"/>
+                            <rect x="6" y="0" width="4" height="4" rx="0.8"/>
+                            <rect x="0" y="6" width="4" height="4" rx="0.8"/>
+                            <rect x="6" y="6" width="4" height="4" rx="0.8"/>
+                        </svg>
+                    </div>
+                    <span class="text-[13px] font-bold text-gray-900 dark:text-white tracking-tight">IMS-FMS</span>
+                </div>
+
+                <!-- Nav Links -->
+                <nav class="flex items-center gap-8">
+                    <button onclick="switchTab('dashboard')" id="tab-dashboard" class="nav-tab active">Dashboard</button>
+                    <button onclick="switchTab('inventory')" id="tab-inventory" class="nav-tab">Inventory</button>
+                    <button onclick="switchTab('download')" id="tab-download" class="nav-tab">Download</button>
+                </nav>
             </div>
-            <div class="flex gap-3">
-                <button onclick="toggleDarkMode()" class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 hover:scale-110 transition-transform">
-                    🌓
+
+            <!-- Right: Actions -->
+            <div class="flex items-center gap-6">
+                <button onclick="toggleDarkMode()" class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
                 </button>
                 <input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(event)">
-                <button onclick="document.getElementById('importFile').click()" 
-                        class="bg-gray-200 dark:bg-gray-800 px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider hover:shadow-lg transition">
-                    📥 Import
+                <button onclick="document.getElementById('importFile').click()"
+                        class="text-[13px] font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
+                    Import
                 </button>
-                <button onclick="exportData()" 
-                        class="bg-gradient-to-r from-gray-800 to-gray-700 dark:from-indigo-700 dark:to-indigo-800 text-white px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider hover:shadow-lg transition">
-                    📤 Export
+                <button onclick="exportData()"
+                        class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-1.5 rounded-lg text-[13px] font-medium hover:bg-gray-700 dark:hover:bg-gray-100 transition">
+                    Export
                 </button>
             </div>
+
         </div>
     </div>
 
     <!-- Dashboard View -->
     <div id="dashboard-view" class="max-w-[98%] mx-auto py-6">
         <div class="mb-6">
-            <h1 class="text-4xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                FLEET DASHBOARD
-            </h1>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Real-time fleet inventory insights & analytics</p>
+            <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Fleet Dashboard</h1>
+            <p class="text-sm text-gray-400 mt-1">Real-time inventory insights & analytics</p>
         </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <!-- Total Assets -->
-            <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl p-6 text-white shadow-xl">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <p class="text-indigo-100 text-sm font-semibold uppercase tracking-wide">Total Assets</p>
-                        <h3 class="text-4xl font-black mt-2" id="stat-total">0</h3>
-                    </div>
-                    <div class="bg-white/20 p-3 rounded-xl">
-                        <span class="text-3xl">📦</span>
-                    </div>
-                </div>
-                <p class="text-indigo-100 text-xs">All inventory items</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm" style="border-left:3px solid #64748b">
+                <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">Total Assets</p>
+                <h3 class="text-4xl font-black text-gray-900 dark:text-white" id="stat-total">0</h3>
+                <p class="text-xs text-gray-400 mt-2">All inventory items</p>
             </div>
-
-            <!-- On Trial -->
-            <div class="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl p-6 text-white shadow-xl">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <p class="text-yellow-100 text-sm font-semibold uppercase tracking-wide">On Trial</p>
-                        <h3 class="text-4xl font-black mt-2" id="stat-trial">0</h3>
-                    </div>
-                    <div class="bg-white/20 p-3 rounded-xl">
-                        <span class="text-3xl">🧪</span>
-                    </div>
-                </div>
-                <p class="text-yellow-100 text-xs">Currently testing</p>
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm" style="border-left:3px solid #d97706">
+                <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">On Trial</p>
+                <h3 class="text-4xl font-black text-gray-900 dark:text-white" id="stat-trial">0</h3>
+                <p class="text-xs text-gray-400 mt-2">Currently testing</p>
             </div>
-
-            <!-- On Site -->
-            <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-xl">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <p class="text-blue-100 text-sm font-semibold uppercase tracking-wide">On Site</p>
-                        <h3 class="text-4xl font-black mt-2" id="stat-site">0</h3>
-                    </div>
-                    <div class="bg-white/20 p-3 rounded-xl">
-                        <span class="text-3xl">🏗️</span>
-                    </div>
-                </div>
-                <p class="text-blue-100 text-xs">Deployed in field</p>
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm" style="border-left:3px solid #2563eb">
+                <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">On Site</p>
+                <h3 class="text-4xl font-black text-gray-900 dark:text-white" id="stat-site">0</h3>
+                <p class="text-xs text-gray-400 mt-2">Deployed in field</p>
             </div>
-
-            <!-- Broken Items (New Card) -->
-            <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-xl">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <p class="text-red-100 text-sm font-semibold uppercase tracking-wide">Broken Items</p>
-                        <h3 class="text-4xl font-black mt-2" id="stat-broken">0</h3>
-                    </div>
-                    <div class="bg-white/20 p-3 rounded-xl">
-                        <span class="text-3xl">⚠️</span>
-                    </div>
-                </div>
-                <p class="text-red-100 text-xs">Needs repair/return</p>
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm" style="border-left:3px solid #dc2626">
+                <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">Broken Items</p>
+                <h3 class="text-4xl font-black text-gray-900 dark:text-white" id="stat-broken">0</h3>
+                <p class="text-xs text-gray-400 mt-2">Needs repair / return</p>
             </div>
         </div>
 
         <!-- Charts Row -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            <!-- Category Distribution -->
-            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
-                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
-                    <span class="text-2xl">📊</span> Category Distribution
-                </h3>
-                <div id="category-chart" class="space-y-4"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">Category Distribution</h3>
+                <div id="category-chart" class="space-y-3"></div>
             </div>
-
-            <!-- Status Distribution -->
-            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
-                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
-                    <span class="text-2xl">📈</span> Status Overview
-                </h3>
-                <div id="status-chart" class="space-y-4"></div>
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">Status Overview</h3>
+                <div id="status-chart" class="space-y-3"></div>
             </div>
-
-            <!-- Available by Category (NEW) -->
-            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
-                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
-                    <span class="text-2xl">✅</span> Available Stock
-                </h3>
-                <div id="available-chart" class="space-y-4"></div>
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">Available Stock</h3>
+                <div id="available-chart" class="space-y-3"></div>
             </div>
         </div>
 
         <!-- Location & Recent Activity -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Top Locations -->
-            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
-                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
-                    <span class="text-2xl">📍</span> Top Locations
-                </h3>
-                <div id="location-list" class="space-y-3"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">Top Locations</h3>
+                <div id="location-list"></div>
             </div>
-
-            <!-- Recent Changes -->
-            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border dark:border-gray-800">
-                <h3 class="text-lg font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
-                    <span class="text-2xl">🕐</span> Recent Activity
-                </h3>
-                <div id="recent-activity" class="space-y-3 max-h-[300px] overflow-y-auto"></div>
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">Recent Activity</h3>
+                <div id="recent-activity" class="max-h-[300px] overflow-y-auto"></div>
             </div>
         </div>
     </div>
@@ -309,43 +265,36 @@
     <!-- Inventory View -->
     <div id="inventory-view" class="max-w-[98%] mx-auto py-6 hidden">
         <!-- Header -->
-        <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg mb-6 border dark:border-gray-800">
-            <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
-                <div>
-                    <h1 class="text-3xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                        FLEET INVENTORY
-                    </h1>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Manage your fleet assets</p>
-                </div>
-                
-                <div class="flex flex-wrap gap-3">
-                    <button onclick="openAddModal()" 
-                            class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl text-xs font-black shadow-lg uppercase hover:shadow-xl transition-all hover:scale-105">
-                        ✨ New Asset
-                    </button>
-                </div>
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Inventory</h1>
+                <p class="text-xs text-gray-400 mt-0.5">Manage your fleet assets</p>
             </div>
+            <button onclick="openAddModal()"
+                    class="bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 dark:hover:bg-white transition">
+                + New Asset
+            </button>
         </div>
 
         <!-- Main Table Card -->
-        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border dark:border-gray-800 overflow-hidden">
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
             <!-- Search Bar -->
-            <div class="p-4 border-b dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 bg-gray-50/50 dark:bg-gray-800/30">
-                <input type="text" 
-                       id="searchInput" 
-                       onkeyup="filterTable()" 
-                       placeholder="🔍 Search by Serial, Asset Code, Unit, Location..." 
-                       class="border dark:border-gray-700 bg-white dark:bg-gray-800 rounded-xl px-5 py-3 text-sm w-full md:w-96 outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                <div id="page-info" class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase"></div>
+            <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-3">
+                <input type="text"
+                       id="searchInput"
+                       onkeyup="filterTable()"
+                       placeholder="Search by serial, asset code, unit, location..."
+                       class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-4 py-2 text-sm w-full md:w-80 outline-none focus:ring-1 focus:ring-gray-400 transition">
+                <div id="page-info" class="text-xs font-medium text-gray-400 uppercase tracking-wide whitespace-nowrap"></div>
             </div>
 
             <!-- Table -->
             <div class="table-container max-h-[65vh]">
                 <table class="w-full text-left text-sm" id="inventoryTable">
-                    <thead class="uppercase text-xs font-black">
-                        <tr class="border-b-2 dark:border-gray-700">
-                            <th style="width: 60px;">No</th>
-                            <th style="width: 180px;">Asset Code</th>
+                    <thead class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                        <tr class="border-b border-gray-100 dark:border-gray-800">
+                            <th style="width: 50px;">No</th>
+                            <th style="width: 170px;">Asset Code</th>
                             <th>Item Name</th>
                             <th>Category</th>
                             <th>Source</th>
@@ -361,15 +310,15 @@
                             <th>Assigned Unit</th>
                             <th>Unit VIN</th>
                             <th>Notes</th>
-                            <th class="text-center" style="width: 120px;">Actions</th>
+                            <th class="text-center" style="width: 100px;">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800" id="inventory-body"></tbody>
+                    <tbody class="divide-y divide-gray-50 dark:divide-gray-800/70" id="inventory-body"></tbody>
                 </table>
             </div>
 
             <!-- Pagination -->
-            <div class="p-4 bg-gray-50 dark:bg-gray-900/50 border-t dark:border-gray-800 flex justify-center items-center gap-2" id="pagination-controls"></div>
+            <div class="px-4 py-3 border-t border-gray-100 dark:border-gray-800 flex justify-center items-center gap-1.5" id="pagination-controls"></div>
         </div>
     </div>
 
@@ -378,12 +327,12 @@
         <div class="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-6xl shadow-2xl max-h-[95vh] flex flex-col border-2 dark:border-gray-700">
             <form id="hw-form" class="flex flex-col h-full overflow-hidden" onsubmit="saveItem(event)">
                 <!-- Modal Header -->
-                <div class="p-6 border-b-2 dark:border-gray-800 flex justify-between items-center bg-gradient-to-r from-indigo-600 to-purple-600">
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
                     <div>
-                        <h3 class="text-xl font-black text-white uppercase" id="modal-title">Hardware Specification</h3>
-                        <p class="text-xs text-indigo-100 mt-1">Complete all required fields</p>
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white" id="modal-title">Hardware Specification</h3>
+                        <p class="text-xs text-gray-400 mt-0.5">Complete all required fields</p>
                     </div>
-                    <button type="button" onclick="closeModal()" class="text-3xl text-white hover:text-red-300 transition font-bold">&times;</button>
+                    <button type="button" onclick="closeModal()" class="text-2xl font-light text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition leading-none">&times;</button>
                 </div>
                 
                 <!-- Modal Body -->
@@ -420,6 +369,7 @@
                             <option value="DMS Camera">DMS Camera</option>
                             <option value="Others Camera">Others Camera</option>
                             <option value="Camera SIM Card">Camera SIM Card</option>
+                            <option value="SD Card">SD Card</option>
                         </select>
                     </div>
                     
@@ -436,6 +386,7 @@
                             <option value="DMS-Camera">DMS Camera</option>
                             <option value="Others-Camera">Others Camera</option>
                             <option value="Camera-SIM">Camera SIM Card</option>
+                            <option value="SD-Card">SD Card</option>
                         </select>
                     </div>
                     
@@ -502,31 +453,24 @@
                     </div>
 
                     <!-- Smart Binding Section -->
-                    <div class="md:col-span-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 p-6 rounded-2xl border-2 border-indigo-200 dark:border-indigo-800/50">
-                        <label class="block text-sm font-black text-indigo-700 dark:text-indigo-400 uppercase mb-4">
-                            🔗 Smart Asset Binding
-                        </label>
-                        <div id="bound-list" class="flex flex-wrap gap-3 mb-5 min-h-[50px] items-center"></div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <select id="bind-category-select" onchange="refreshAvailableAssets(); updateAssetPeek();" 
-                                    class="border-2 dark:border-gray-600 rounded-xl p-3 text-sm bg-white dark:bg-gray-900 outline-none focus:border-indigo-500">
-                                <option value="">-- Select Category to Bind --</option>
-                                <option value="SIM">SIM Card</option>
-                                <option value="CAN">CAN Adapter</option>
-                                <option value="Device-Telematics">Device-Telematics</option>
+                    <div class="md:col-span-4 bg-gray-50 dark:bg-gray-800/40 p-5 rounded-xl border border-gray-100 dark:border-gray-700">
+                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">Linked Assets</label>
+                        <div id="bound-list" class="flex flex-wrap gap-2 mb-4 min-h-[36px] items-center"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                            <select id="bind-category-select" onchange="refreshAvailableAssets(); updateAssetPeek();"
+                                    class="border border-gray-200 dark:border-gray-600 rounded-lg p-2.5 text-sm bg-white dark:bg-gray-900 outline-none focus:ring-1 focus:ring-gray-400">
+                                <option value="">-- Select Category --</option>
                             </select>
-                            <select id="bind-asset-select" 
-                                    class="border-2 dark:border-gray-600 rounded-xl p-3 text-sm bg-white dark:bg-gray-900 outline-none">
-                                <option value="">-- Select Available Asset --</option>
+                            <select id="bind-asset-select"
+                                    class="border border-gray-200 dark:border-gray-600 rounded-lg p-2.5 text-sm bg-white dark:bg-gray-900 outline-none">
+                                <option value="">-- Select Asset --</option>
                             </select>
-                            <button type="button" onclick="addBinding()" 
-                                    class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold text-sm uppercase hover:shadow-lg transition-all hover:scale-105">
-                                + Link Asset
+                            <button type="button" onclick="addBinding()"
+                                    class="bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-gray-700 dark:hover:bg-white transition">
+                                + Link
                             </button>
                         </div>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-3 italic">
-                            💡 Tip: Device-Telematics can only bind with CAN or SIM categories
-                        </p>
+                        <p class="text-xs text-gray-400 mt-2">Categories are filtered based on the selected item type</p>
                     </div>
 
                     <!-- Assignment Info -->
@@ -558,14 +502,14 @@
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="p-6 border-t-2 dark:border-gray-800 flex justify-end gap-4 bg-gray-50 dark:bg-gray-800/50">
-                    <button type="button" onclick="closeModal()" 
-                            class="px-8 py-3 text-gray-600 dark:text-gray-400 font-bold text-sm uppercase hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition">
+                <div class="px-6 py-4 border-t border-gray-100 dark:border-gray-800 flex justify-end gap-3 bg-gray-50 dark:bg-gray-800/30">
+                    <button type="button" onclick="closeModal()"
+                            class="px-5 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition">
                         Cancel
                     </button>
-                    <button type="submit" 
-                            class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-12 py-3 rounded-xl font-black text-sm shadow-lg uppercase hover:shadow-xl transition-all hover:scale-105">
-                        💾 Save Asset
+                    <button type="submit"
+                            class="bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 px-8 py-2 rounded-lg text-sm font-semibold hover:bg-gray-700 dark:hover:bg-white transition">
+                        Save Asset
                     </button>
                 </div>
             </form>
@@ -574,10 +518,10 @@
 
     <!-- History Modal -->
     <div id="historyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4" style="z-index: 9999;">
-        <div class="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-3xl shadow-2xl border-2 dark:border-gray-700 max-h-[90vh] flex flex-col">
-            <div class="p-6 border-b-2 dark:border-gray-800 flex justify-between items-center bg-gradient-to-r from-purple-600 to-pink-600">
-                <h3 class="text-xl font-black text-white uppercase">📋 Asset History</h3>
-                <button onclick="closeHistoryModal()" class="text-3xl text-white hover:text-red-300 transition">&times;</button>
+        <div class="bg-white dark:bg-gray-900 rounded-xl w-full max-w-3xl shadow-xl border border-gray-100 dark:border-gray-700 max-h-[90vh] flex flex-col">
+            <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                <h3 class="text-base font-bold text-gray-900 dark:text-white">Asset History</h3>
+                <button onclick="closeHistoryModal()" class="text-2xl font-light text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition leading-none">&times;</button>
             </div>
             <div class="p-6 overflow-y-auto" id="historyContent"></div>
         </div>
@@ -588,6 +532,64 @@
         let tempBoundAssets = [];
         let currentPage = 1;
         const rowsPerPage = 15;
+
+        // Binding rules: item_name → allowed item_names to bind with
+        const ITEM_BINDING_RULES = {
+            'FMC 150':        ['E Can', 'SIM Card', 'Camera SIM Card', 'ADAS Camera', 'DMS Camera', 'Others Camera'],
+            'FMB 150':        ['E Can', 'SIM Card', 'Camera SIM Card', 'ADAS Camera', 'DMS Camera', 'Others Camera'],
+            'FMC 650':        ['E Can', 'All Can 300', 'SIM Card', 'Camera SIM Card', 'ADAS Camera', 'DMS Camera', 'Others Camera'],
+            'E Can':          ['FMC 150', 'FMB 150', 'FMC 650', 'All Can 300'],
+            'All Can 300':    ['E Can', 'FMC 650'],
+            'SIM Card':       ['FMC 150', 'FMB 150', 'FMC 650', 'ADAS Camera', 'MDVR'],
+            'Camera SIM Card':['FMC 150', 'FMB 150', 'FMC 650', 'ADAS Camera', 'MDVR'],
+            'ADAS Camera':    ['Camera SIM Card', 'SIM Card', 'FMC 150', 'FMB 150', 'FMC 650', 'DMS Camera', 'Others Camera', 'MDVR', 'SD Card'],
+            'DMS Camera':     ['FMC 150', 'FMB 150', 'FMC 650', 'ADAS Camera', 'Others Camera', 'MDVR'],
+            'Others Camera':  ['FMC 150', 'FMB 150', 'FMC 650', 'ADAS Camera', 'MDVR'],
+            'SD Card':        ['ADAS Camera', 'MDVR'],
+            'MDVR':           ['FMC 150', 'FMB 150', 'FMC 650', 'SIM Card', 'Camera SIM Card', 'ADAS Camera', 'DMS Camera', 'Others Camera', 'SD Card'],
+        };
+
+        const ITEM_TO_CATEGORY = {
+            'FMC 150': 'Device-Telematics', 'FMB 150': 'Device-Telematics', 'FMC 650': 'Device-Telematics',
+            'E Can': 'CAN', 'All Can 300': 'CAN',
+            'SIM Card': 'SIM',
+            'Camera SIM Card': 'Camera-SIM',
+            'ADAS Camera': 'ADAS-Camera',
+            'DMS Camera': 'DMS-Camera',
+            'Others Camera': 'Others-Camera',
+            'SD Card': 'SD-Card',
+            'MDVR': 'MDVR',
+        };
+
+        const CAT_LABELS = {
+            'Device-Telematics': 'Device-Telematics', 'CAN': 'CAN Adapter', 'SIM': 'SIM Card',
+            'MDVR': 'MDVR', 'ADAS-Camera': 'ADAS Camera', 'DMS-Camera': 'DMS Camera',
+            'Others-Camera': 'Others Camera', 'Camera-SIM': 'Camera SIM Card', 'SD-Card': 'SD Card',
+        };
+
+        // Chart color palette — muted, professional
+        const CHART_COLORS = {
+            'Device-Telematics': '#475569', 'CAN': '#0d9488', 'SIM': '#d97706',
+            'MDVR': '#4f46e5', 'ADAS-Camera': '#7c3aed', 'DMS-Camera': '#2563eb',
+            'Others-Camera': '#0284c7', 'Camera-SIM': '#ea580c', 'SD-Card': '#78716c',
+            'On Hand': '#16a34a', 'On Trial': '#d97706', 'On Site': '#2563eb',
+            'Broken': '#dc2626', 'R&D': '#7c3aed',
+        };
+
+        function chartRow(label, count, pct, color) {
+            return `<div>
+                <div class="flex justify-between items-center mb-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:${color}"></div>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">${label}</span>
+                    </div>
+                    <span class="text-sm tabular-nums text-gray-900 dark:text-white font-semibold">${count} <span class="text-xs font-normal text-gray-400">${pct}%</span></span>
+                </div>
+                <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5">
+                    <div class="h-1.5 rounded-full transition-all duration-500" style="width:${pct}%;background-color:${color}"></div>
+                </div>
+            </div>`;
+        }
 
         // Initialize
         window.onload = () => {
@@ -631,24 +633,12 @@
             
             const categoryChart = document.getElementById('category-chart');
             const total = inv.length || 1;
-            categoryChart.innerHTML = Object.entries(categories).map(([cat, count]) => {
-                const percentage = ((count / total) * 100).toFixed(1);
-                const colors = {
-                    'Device-Telematics': 'bg-indigo-500',
-                    'CAN': 'bg-emerald-500',
-                    'SIM': 'bg-orange-500'
-                };
-                return `
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm font-bold text-gray-700 dark:text-gray-300">${cat}</span>
-                            <span class="text-sm font-black text-gray-900 dark:text-white">${count} (${percentage}%)</span>
-                        </div>
-                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
-                            <div class="progress-bar ${colors[cat] || 'bg-gray-500'}" style="width: ${percentage}%"></div>
-                        </div>
-                    </div>
-                `;
+            const sortedCats = Object.entries(categories).sort((a, b) => b[1] - a[1]);
+            categoryChart.innerHTML = sortedCats.map(([cat, count]) => {
+                const pct = ((count / total) * 100).toFixed(1);
+                const color = CHART_COLORS[cat] || '#94a3b8';
+                const label = CAT_LABELS[cat] || cat;
+                return chartRow(label, count, pct, color);
             }).join('');
             
             // Status Chart
@@ -658,26 +648,11 @@
             });
             
             const statusChart = document.getElementById('status-chart');
-            statusChart.innerHTML = Object.entries(statuses).map(([status, count]) => {
-                const percentage = ((count / total) * 100).toFixed(1);
-                const colors = {
-                    'On Trial': 'bg-yellow-500',
-                    'On Site': 'bg-blue-500',
-                    'On Hand': 'bg-green-500',
-                    'Broken': 'bg-red-500',
-                    'R&D': 'bg-purple-500'
-                };
-                return `
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm font-bold text-gray-700 dark:text-gray-300">${status}</span>
-                            <span class="text-sm font-black text-gray-900 dark:text-white">${count} (${percentage}%)</span>
-                        </div>
-                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
-                            <div class="progress-bar ${colors[status] || 'bg-gray-500'}" style="width: ${percentage}%"></div>
-                        </div>
-                    </div>
-                `;
+            const sortedStatuses = Object.entries(statuses).sort((a, b) => b[1] - a[1]);
+            statusChart.innerHTML = sortedStatuses.map(([status, count]) => {
+                const pct = ((count / total) * 100).toFixed(1);
+                const color = CHART_COLORS[status] || '#94a3b8';
+                return chartRow(status, count, pct, color);
             }).join('');
             
             // Available by Category (NEW)
@@ -694,24 +669,12 @@
             if (Object.keys(availableByCategory).length === 0) {
                 availableChart.innerHTML = '<p class="text-gray-400 text-sm italic text-center">No available items</p>';
             } else {
-                availableChart.innerHTML = Object.entries(availableByCategory).map(([cat, count]) => {
-                    const percentage = ((count / totalAvailable) * 100).toFixed(1);
-                    const colors = {
-                        'Device-Telematics': 'bg-indigo-500',
-                        'CAN': 'bg-emerald-500',
-                        'SIM': 'bg-orange-500'
-                    };
-                    return `
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-sm font-bold text-gray-700 dark:text-gray-300">${cat}</span>
-                                <span class="text-sm font-black text-gray-900 dark:text-white">${count}</span>
-                            </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
-                                <div class="progress-bar ${colors[cat] || 'bg-gray-500'}" style="width: ${percentage}%"></div>
-                            </div>
-                        </div>
-                    `;
+                const sortedAvail = Object.entries(availableByCategory).sort((a, b) => b[1] - a[1]);
+                availableChart.innerHTML = sortedAvail.map(([cat, count]) => {
+                    const pct = ((count / totalAvailable) * 100).toFixed(1);
+                    const color = CHART_COLORS[cat] || '#94a3b8';
+                    const label = CAT_LABELS[cat] || cat;
+                    return chartRow(label, count, pct, color);
                 }).join('');
             }
             
@@ -723,13 +686,10 @@
             
             const locationList = document.getElementById('location-list');
             const topLocations = Object.entries(locations).sort((a, b) => b[1] - a[1]).slice(0, 5);
-            locationList.innerHTML = topLocations.length > 0 ? topLocations.map(([loc, count]) => `
-                <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                    <div class="flex items-center gap-3">
-                        <span class="text-2xl">📍</span>
-                        <span class="font-bold text-gray-800 dark:text-gray-200">${loc}</span>
-                    </div>
-                    <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-black">${count}</span>
+            locationList.innerHTML = topLocations.length > 0 ? topLocations.map(([loc, count], idx) => `
+                <div class="flex justify-between items-center py-2.5 ${idx < topLocations.length - 1 ? 'border-b border-gray-50 dark:border-gray-800' : ''}">
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">${loc}</span>
+                    <span class="text-sm font-bold text-gray-900 dark:text-white tabular-nums">${count}</span>
                 </div>
             `).join('') : '<p class="text-gray-400 text-sm italic text-center">No location data</p>';
             
@@ -748,12 +708,12 @@
             const recent = allHistory.slice(0, 10);
             
             recentActivity.innerHTML = recent.length > 0 ? recent.map(h => `
-                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border-l-4 border-indigo-500">
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">${h.asset}</span>
-                        <span class="text-xs text-gray-500">${h.date}</span>
+                <div class="py-2.5 pl-3 border-l-2 border-gray-200 dark:border-gray-700 mb-2">
+                    <div class="flex justify-between items-center mb-0.5">
+                        <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">${h.asset}</span>
+                        <span class="text-xs text-gray-400">${h.date}</span>
                     </div>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">${h.action}: ${h.changes}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">${h.action}: ${h.changes}</p>
                 </div>
             `).join('') : '<p class="text-gray-400 text-sm italic text-center">No recent activity</p>';
         }
@@ -772,7 +732,8 @@
                 'ADAS Camera': 'ADAS-Camera',
                 'DMS Camera': 'DMS-Camera',
                 'Others Camera': 'Others-Camera',
-                'Camera SIM Card': 'Camera-SIM'
+                'Camera SIM Card': 'Camera-SIM',
+                'SD Card': 'SD-Card'
             };
             const category = categoryMap[itemName] || '';
             document.getElementById('category').value = category;
@@ -805,36 +766,38 @@
             paginated.forEach((item) => {
                 const globalIdx = appData.inventory.findIndex(i => i.asset_code === item.asset_code);
                 const row = document.createElement('tr');
-                row.className = 'hover:bg-indigo-50 dark:hover:bg-gray-800/70 transition-colors border-b dark:border-gray-800';
-                
+                row.className = 'hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors';
+
+                const catColor = CHART_COLORS[item.category] || '#94a3b8';
+                const statusColor = CHART_COLORS[item.status] || '#94a3b8';
+                const condColor = item.condition === 'Good' ? '#16a34a' : '#dc2626';
+
                 const linkedAssets = Array.isArray(item.set_of) && item.set_of.length > 0
-                    ? item.set_of.map(code => `<span class="inline-block bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded text-xs font-bold m-0.5">${code}</span>`).join('')
-                    : '<span class="text-gray-400 text-xs italic">No links</span>';
-                
+                    ? item.set_of.map(code => `<span class="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-1.5 py-0.5 rounded text-xs font-mono m-0.5">${code}</span>`).join('')
+                    : '<span class="text-gray-300 dark:text-gray-600 text-xs">—</span>';
+
                 row.innerHTML = `
-                    <td class="text-gray-500 dark:text-gray-400 font-mono font-bold">${item.no}</td>
-                    <td>
-                        <span class="text-indigo-600 dark:text-indigo-400 font-black">${item.asset_code}</span>
-                    </td>
-                    <td class="font-bold text-gray-800 dark:text-gray-200">${item.item_name || '-'}</td>
-                    <td><span class="category-badge ${getCategoryColor(item.category)}">${item.category || '-'}</span></td>
-                    <td class="text-gray-600 dark:text-gray-400">${item.purchase_source || '-'}</td>
-                    <td class="font-mono text-gray-700 dark:text-gray-300 text-xs">${item.serial_number || '-'}</td>
-                    <td class="text-sm">${item.sim_card_number || '-'}</td>
-                    <td class="font-mono text-xs text-gray-600 dark:text-gray-400">${item.sim_card_iccid || '-'}</td>
+                    <td class="text-gray-400 font-mono text-xs">${item.no}</td>
+                    <td class="font-mono font-semibold text-gray-800 dark:text-gray-200 text-xs">${item.asset_code}</td>
+                    <td class="font-medium text-gray-800 dark:text-gray-200">${item.item_name || '-'}</td>
+                    <td><span class="category-badge" style="background-color:${catColor}18;color:${catColor};border:1px solid ${catColor}35">${CAT_LABELS[item.category] || item.category || '-'}</span></td>
+                    <td class="text-gray-500 dark:text-gray-400 text-xs">${item.purchase_source || '-'}</td>
+                    <td class="font-mono text-gray-600 dark:text-gray-400 text-xs">${item.serial_number || '-'}</td>
+                    <td class="text-xs text-gray-600 dark:text-gray-400">${item.sim_card_number || '-'}</td>
+                    <td class="font-mono text-xs text-gray-500 dark:text-gray-500">${item.sim_card_iccid || '-'}</td>
                     <td class="max-w-xs">${linkedAssets}</td>
-                    <td class="text-center font-bold">${item.qty || 1}</td>
-                    <td><span class="status-pill ${getStatusColor(item.status)}">${item.status || 'N/A'}</span></td>
-                    <td><span class="status-pill ${getConditionColor(item.condition)}">${item.condition || 'Good'}</span></td>
-                    <td class="text-sm">${item.location || '-'}</td>
-                    <td class="text-sm">${item.assigned_to || '-'}</td>
-                    <td class="font-semibold text-sm">${item.assigned_unit || '-'}</td>
-                    <td class="font-mono text-xs text-gray-600">${item.installed_unit_vin || '-'}</td>
-                    <td class="max-w-[200px] truncate text-xs text-gray-600 dark:text-gray-400">${item.notes || '-'}</td>
-                    <td class="text-center">
-                        <button onclick="editItem(${globalIdx})" class="text-indigo-600 dark:text-indigo-400 font-black hover:underline text-sm mr-2">✏️</button>
-                        <button onclick="viewHistory(${globalIdx})" class="text-purple-600 dark:text-purple-400 font-black hover:underline text-sm mr-2">📋</button>
-                        <button onclick="deleteItem(${globalIdx})" class="text-red-600 dark:text-red-400 font-black hover:underline text-sm">🗑️</button>
+                    <td class="text-center text-gray-700 dark:text-gray-300 text-xs">${item.qty || 1}</td>
+                    <td><span class="status-pill" style="background-color:${statusColor}15;color:${statusColor}">${item.status || 'N/A'}</span></td>
+                    <td><span class="status-pill" style="background-color:${condColor}15;color:${condColor}">${item.condition || 'Good'}</span></td>
+                    <td class="text-xs text-gray-600 dark:text-gray-400">${item.location || '-'}</td>
+                    <td class="text-xs text-gray-600 dark:text-gray-400">${item.assigned_to || '-'}</td>
+                    <td class="text-xs text-gray-700 dark:text-gray-300">${item.assigned_unit || '-'}</td>
+                    <td class="font-mono text-xs text-gray-500">${item.installed_unit_vin || '-'}</td>
+                    <td class="max-w-[200px] truncate text-xs text-gray-500 dark:text-gray-500">${item.notes || '-'}</td>
+                    <td class="text-center whitespace-nowrap">
+                        <button onclick="editItem(${globalIdx})" class="text-xs font-medium text-gray-400 hover:text-gray-900 dark:hover:text-white px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition">Edit</button>
+                        <button onclick="viewHistory(${globalIdx})" class="text-xs font-medium text-gray-400 hover:text-gray-900 dark:hover:text-white px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition">Log</button>
+                        <button onclick="deleteItem(${globalIdx})" class="text-xs font-medium text-gray-400 hover:text-red-600 px-2 py-1 rounded hover:bg-red-50 dark:hover:bg-red-950/30 transition">Del</button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -846,30 +809,33 @@
 
         // Smart Binding System
         function refreshAvailableAssets() {
-            const mainCat = document.getElementById('category').value;
+            const mainItemName = document.getElementById('item_name').value;
             const bindCatSelect = document.getElementById('bind-category-select');
             const assetSelect = document.getElementById('bind-asset-select');
             const selfCode = document.getElementById('asset_code').value;
-            
-            // Rule: Device-Telematics can only bind with other categories
-            Array.from(bindCatSelect.options).forEach(opt => {
-                if (mainCat === 'Device-Telematics' && opt.value === 'Device-Telematics') {
-                    opt.disabled = true;
-                } else if (mainCat !== 'Device-Telematics' && mainCat !== '' && opt.value === mainCat) {
-                    opt.disabled = true;
-                } else {
-                    opt.disabled = false;
-                }
+
+            // Determine allowed categories based on item name
+            const allowedItems = mainItemName ? (ITEM_BINDING_RULES[mainItemName] || []) : [];
+            const allowedCats = [...new Set(allowedItems.map(n => ITEM_TO_CATEGORY[n]).filter(Boolean))];
+
+            // Rebuild bind-category-select options
+            const prevCatVal = bindCatSelect.value;
+            bindCatSelect.innerHTML = '<option value="">-- Select Category to Bind --</option>';
+            allowedCats.forEach(cat => {
+                bindCatSelect.innerHTML += `<option value="${cat}">${CAT_LABELS[cat] || cat}</option>`;
             });
+            if (allowedCats.includes(prevCatVal)) bindCatSelect.value = prevCatVal;
 
             const selectedCat = bindCatSelect.value;
             assetSelect.innerHTML = '<option value="">-- Select Available Asset --</option>';
-            
             if (!selectedCat) return;
 
-            // Find unbound assets
-            const available = appData.inventory.filter(i => 
-                i.category === selectedCat && 
+            // Filter by allowed item names within selected category
+            const allowedItemsInCat = allowedItems.filter(n => ITEM_TO_CATEGORY[n] === selectedCat);
+
+            const available = appData.inventory.filter(i =>
+                i.category === selectedCat &&
+                allowedItemsInCat.includes(i.item_name) &&
                 i.asset_code !== selfCode &&
                 !tempBoundAssets.includes(i.asset_code) &&
                 !appData.inventory.some(inv => inv.asset_code !== selfCode && inv.set_of?.includes(i.asset_code))
@@ -1335,15 +1301,6 @@
                 'R&D': 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-400'
             };
             return colors[s] || 'bg-gray-100 text-gray-800 dark:bg-gray-900/40 dark:text-gray-400';
-        }
-
-        function getCategoryColor(c) {
-            const colors = {
-                'Device-Telematics': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300',
-                'CAN': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300',
-                'SIM': 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300'
-            };
-            return colors[c] || 'bg-gray-100 text-gray-800';
         }
 
         function getConditionColor(c) {

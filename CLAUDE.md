@@ -12,7 +12,7 @@ IMS-FMS (Inventory Management System - Fleet Management System) is a self-contai
 
 - **Local development:** Open `index.html` directly in a web browser
 - **Production:** Deployed on Netlify (entry file must be `index.html`)
-- **Test data:** Import `fleet_inventory_2026-01-06.json` via the app's Import feature
+- **Test data:** Import `fleet_inventory_yyyy-mm-dd.json` via the app's Import feature
 
 ## Tech Stack
 
@@ -92,3 +92,21 @@ appData = {
 ## Configuration
 
 - `rowsPerPage` constant (line ~568) controls pagination - default is 15 items per page
+
+## Learnings Log
+- Baca `.learnings/LEARNINGS.md` di awal setiap session
+- Setiap kali dikoreksi user, catat di `.learnings/LEARNINGS.md`
+- Format:
+```yaml
+- date: YYYY-MM-DD
+  cat: kategori singkat
+  误: apa yang salah
+  正: apa yang benar
+  则: aturan ke depan
+```
+- Jangan duplicate entry
+- Maksimal 2 baris per field
+
+## Memory
+- Di awal session, baca file terbaru di folder `MEMORY/`
+- Di tengah session setelah selesai task besar, tawarkan user untuk checkpoint

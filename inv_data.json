@@ -16,161 +16,312 @@
       "Assigned To",
       "Assigned Unit",
       "Installed Unit VIN",
-      "Notes"
+      "Notes",
+      "Condition"
     ],
-    "total_records": 37,
+    "total_records": 47,
     "source": "Excel Inventory",
     "export_date": "2024-01-01",
     "version": "1.0",
-    "last_updated": "2024-01-01T00:00:00Z"
+    "last_updated": "2026-03-02T06:22:54.236Z"
   },
   "inventory": [
     {
       "no": 1,
+      "asset_code": "MSF-TC-150-1",
       "item_name": "FMC 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 868373072269782,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TC-150-1",
-      "set_of": ["MSF-SC-000-2", "MSF-EC-000-8"],
+      "serial_number": "868373072269782",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "TH 6x4 (B 9437 UEA)",
-      "installed_unit_vin": null,
-      "notes": "Done Trial ACSL",
-      "history": [],
+      "notes": "Checked (25/02/2026)\nada di dalam dus besar B1",
+      "set_of": [],
+      "history": [
+        {
+          "date": "20 Jan 2026, 13.50",
+          "action": "Updated",
+          "changes": "Location: PT ACSL → HO | Assigned To: PT ACSL → PT MBS",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.53",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-EC-000-8, MSF-SC-000-2] → [MSF-SC-000-2]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.31",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: HO → Sulawesi, Kolaka | Unit: TH 6x4 (B 9437 UEA) → N/A | Assigned To: PT MBS → PT STT | Linked Assets: [MSF-SC-000-2] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.45",
+          "action": "Updated",
+          "changes": "Location: Sulawesi, Kolaka → HO | Assigned To: PT STT → Internal",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:45:26.485Z"
     },
     {
       "no": 2,
+      "asset_code": "MSF-TC-150-2",
       "item_name": "FMC 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 868373071533832,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TC-150-2",
-      "set_of": ["MSF-SC-000-3", "MSF-EC-000-1"],
+      "serial_number": "868373071533832",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "TH 4x2 (B 9434 UEA)",
-      "installed_unit_vin": null,
-      "notes": "Done Trial ACSL",
-      "history": [],
+      "notes": "Checked (24/02/2026)\nTanpa dus, otw ke STT",
+      "set_of": [
+        "MSF-EC-000-1",
+        "MSF-SC-000-3"
+      ],
+      "history": [
+        {
+          "date": "20 Jan 2026, 13.50",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: PT ACSL → HO | Assigned To: PT ACSL → Internal",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.51",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site | Location: HO → Sulawesi, Kolaka | Unit: TH 4x2 (B 9434 UEA) → N/A | Assigned To: Internal → PT STT",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:51:12.849Z"
     },
     {
       "no": 3,
+      "asset_code": "MSF-TC-150-3",
       "item_name": "FMC 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 867747078550918,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TC-150-3",
-      "set_of": ["MSF-EC-000-2", "MSF-SC-000-4"],
+      "serial_number": "867747078550918",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "IMIP",
-      "assigned_to": "MSO",
-      "assigned_unit": "DT 09 Shacman X3000",
-      "installed_unit_vin": "Unknown",
-      "notes": "On Trial in IMIP",
-      "history": [],
+      "notes": "Ex Trial in BSB(02/23/2026-02/27/2026)\nChecked(03/02/2026)\ndi kotak B1",
+      "set_of": [
+        "MSF-EC-000-2",
+        "MSF-SC-000-6"
+      ],
+      "history": [
+        {
+          "date": "20 Jan 2026, 14.27",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: IMIP → HO | Unit: DT 09 Shacman X3000 → N/A | Assigned To: MSO → Internal",
+          "user": "System"
+        },
+        {
+          "date": "2 Mar 2026, 09.10",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-EC-000-2, MSF-SC-000-4] → [MSF-EC-000-2, MSF-SC-000-6]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-03-02T02:10:49.810Z"
     },
     {
       "no": 4,
+      "asset_code": "MSF-TC-150-4",
       "item_name": "FMC 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 868373071533782,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TC-150-4",
-      "set_of": ["MSF-SC-000-9"],
-      "qty": 1,
+      "serial_number": "868373071533782",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
       "status": "On Site",
-      "location": "Sulawesi, Kabaena",
-      "assigned_to": "PT MTL",
-      "assigned_unit": "Not Assigned",
-      "installed_unit_vin": "otw diambil falah",
-      "notes": "On Site in Kabaena (not installed)",
-      "history": [],
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "Checked (24/02/2026)\nTanpa dus, barengan dengan dus A3 dikirim ke STT",
+      "set_of": [
+        "MSF-EC-000-7",
+        "MSF-SC-000-11"
+      ],
+      "history": [
+        {
+          "date": "7 Jan 2026, 14.13",
+          "action": "Updated",
+          "changes": "Status: On Site → On Hand | Location: Sulawesi, Kabaena → HO | Unit: Not Assigned → N/A | Assigned To: PT MTL → Internal | Linked Assets: [MSF-SC-000-9] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 15.43",
+          "action": "Updated",
+          "changes": "Location: HO → Sulawesi, Kolaka | Assigned To: Internal → PT STT",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 15.54",
+          "action": "Updated",
+          "changes": "Condition: Broken → Good",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.08",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-SC-000-11]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.11",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-SC-000-11] → [MSF-EC-000-7, MSF-SC-000-11]",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.57",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:57:32.864Z"
     },
     {
       "no": 5,
+      "asset_code": "MSF-TC-650-1",
       "item_name": "FMC 650",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TC-650-1",
-      "set_of": [],
-      "qty": 1,
+      "serial_number": "",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
       "status": "R&D",
+      "condition": "Good",
       "location": "China",
       "assigned_to": "Internal",
       "assigned_unit": "Unknown",
-      "installed_unit_vin": null,
+      "installed_unit_vin": "",
+      "qty": 1,
       "notes": "R&D EV unit on China",
-      "history": [],
+      "set_of": [
+        "MSF-AC-300-1"
+      ],
+      "history": [
+        {
+          "date": "20 Jan 2026, 16.55",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-AC-300-1]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-01-20T09:55:13.659Z"
     },
     {
       "no": 6,
+      "asset_code": "MSF-EC-000-1",
       "item_name": "E Can",
       "category": "CAN",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-EC-000-1",
-      "set_of": ["MSF-TC-150-2", "MSF-SC-000-3"],
+      "serial_number": "EC1152252582",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "TH 4x2 (B 9434 UEA)",
-      "installed_unit_vin": null,
-      "notes": "Done Trial ACSL",
-      "history": [],
+      "notes": "Checked (24/02/2026)\ntanpa dus, otw ke STT",
+      "set_of": [
+        "MSF-SC-000-3",
+        "MSF-TC-150-2"
+      ],
+      "history": [
+        {
+          "date": "20 Jan 2026, 13.40",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: PT ACSL → HO | Assigned To: PT ACSL → Internal",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.53",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site | Location: HO → Sulawesi, Kolaka | Unit: TH 4x2 (B 9434 UEA) → N/A | Assigned To: Internal → PT STT",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:53:43.284Z"
     },
     {
       "no": 7,
+      "asset_code": "MSF-EC-000-2",
       "item_name": "E Can",
       "category": "CAN",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-EC-000-2",
-      "set_of": ["MSF-TC-150-3", "MSF-SC-000-4"],
+      "serial_number": "EC1150920052",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "R&D",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "IMIP",
-      "assigned_to": "MSO",
-      "assigned_unit": "DT 09 Shacman X3000",
-      "installed_unit_vin": "Unknown",
-      "notes": "On Trial in IMIP",
-      "history": [],
+      "notes": "Ex Trial in BSB(02/23/2026-02/27/2026)\nChecked(03/02/2026)\ndi kotak B1\n<perlu dites, ada anomali saat di BSB>",
+      "set_of": [
+        "MSF-TC-150-3"
+      ],
+      "history": [
+        {
+          "date": "20 Jan 2026, 13.39",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: IMIP → HO | Unit: DT 09 Shacman X3000 → N/A | Assigned To: MSO → Internal",
+          "user": "System"
+        },
+        {
+          "date": "2 Mar 2026, 09.14",
+          "action": "Updated",
+          "changes": "Status: On Hand → R&D | Linked Assets: [MSF-SC-000-4, MSF-TC-150-3] → [MSF-TC-150-3]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-03-02T02:14:12.408Z"
     },
     {
       "no": 8,
@@ -181,7 +332,10 @@
       "sim_card_number": null,
       "sim_card_iccid": null,
       "asset_code": "MSF-EC-000-3",
-      "set_of": ["MSF-TB-150-4", "MSF-SC-000-5"],
+      "set_of": [
+        "MSF-TB-150-4",
+        "MSF-SC-000-5"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "HO",
@@ -191,91 +345,163 @@
       "notes": "On Trial (Engine Cut OFF)",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 9,
+      "asset_code": "MSF-AC-300-1",
       "item_name": "All Can 300",
       "category": "CAN",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-AC-300-1",
-      "set_of": [],
-      "qty": 1,
+      "serial_number": "",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
       "status": "R&D",
+      "condition": "Good",
       "location": "China",
       "assigned_to": "Internal",
       "assigned_unit": "Unknown",
-      "installed_unit_vin": null,
+      "installed_unit_vin": "",
+      "qty": 1,
       "notes": "R&D EV unit on China",
-      "history": [],
+      "set_of": [
+        "MSF-TC-650-1"
+      ],
+      "history": [
+        {
+          "date": "9 Jan 2026, 09.20",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-TC-650-1]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-01-09T02:20:46.471Z"
     },
     {
       "no": 10,
+      "asset_code": "MSF-SC-000-2",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
+      "serial_number": "",
       "sim_card_number": "08117698918",
       "sim_card_iccid": "-",
-      "asset_code": "MSF-SC-000-2",
-      "set_of": ["MSF-TC-150-1", "MSF-EC-000-8"],
-      "qty": 1,
       "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "PT MBS",
       "assigned_unit": "TH 6x4 (B 9437 UEA)",
-      "installed_unit_vin": null,
+      "installed_unit_vin": "",
+      "qty": 1,
       "notes": "Done Trial ACSL",
-      "history": [],
+      "set_of": [
+        "MSF-EC-000-8"
+      ],
+      "history": [
+        {
+          "date": "20 Jan 2026, 13.51",
+          "action": "Updated",
+          "changes": "Location: PT ACSL → HO | Assigned To: PT ACSL → PT MBS",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.31",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-EC-000-8, MSF-TC-150-1] → [MSF-EC-000-8]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-24T09:31:43.899Z"
     },
     {
       "no": 11,
+      "asset_code": "MSF-SC-000-3",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
+      "serial_number": "",
       "sim_card_number": "081170701197",
-      "sim_card_iccid": "-",
-      "asset_code": "MSF-SC-000-3",
-      "set_of": ["MSF-TC-150-2", "MSF-EC-000-1"],
+      "sim_card_iccid": "0015000017391656",
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "TH 4x2 (B 9434 UEA)",
-      "installed_unit_vin": null,
-      "notes": "Done Trial ACSL",
-      "history": [],
+      "notes": "Checked (24/02/2026)\ntanpa dus, otw ke STT",
+      "set_of": [
+        "MSF-EC-000-1",
+        "MSF-TC-150-2"
+      ],
+      "history": [
+        {
+          "date": "20 Jan 2026, 13.36",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: PT ACSL → HO | Assigned To: PT ACSL → Internal",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.54",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site | Location: HO → Sulawesi, Kolaka | Unit: TH 4x2 (B 9434 UEA) → N/A | Assigned To: Internal → PT STT",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:54:58.042Z"
     },
     {
       "no": 12,
+      "asset_code": "MSF-SC-000-4",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
+      "serial_number": "",
       "sim_card_number": "081170701185",
       "sim_card_iccid": "-",
-      "asset_code": "MSF-SC-000-4",
-      "set_of": ["MSF-TC-150-3", "MSF-EC-000-2"],
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "IMIP",
-      "assigned_to": "MSO",
-      "assigned_unit": "DT 09 Shacman X3000",
-      "installed_unit_vin": null,
-      "notes": "On Trial in IMIP",
-      "history": [],
+      "notes": "Checked(03/02/2026)",
+      "set_of": [],
+      "history": [
+        {
+          "date": "2 Mar 2026, 09.10",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-TC-150-3, MSF-EC-000-2] → [MSF-EC-000-2]",
+          "user": "System"
+        },
+        {
+          "date": "2 Mar 2026, 09.14",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-EC-000-2] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "2 Mar 2026, 09.18",
+          "action": "Updated",
+          "changes": "Status: On Trial → R&D | Location: IMIP → China | Unit: DT 09 Shacman X3000 → Unknown | Assigned To: MSO → Unknown",
+          "user": "System"
+        },
+        {
+          "date": "2 Mar 2026, 09.21",
+          "action": "Updated",
+          "changes": "Status: R&D → On Hand | Location: China → HO | Unit: Unknown → N/A | Assigned To: Unknown → Internal",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-03-02T02:21:59.922Z"
     },
     {
       "no": 13,
@@ -286,7 +512,10 @@
       "sim_card_number": "08117698918",
       "sim_card_iccid": "0015000017391350",
       "asset_code": "MSF-SC-000-5",
-      "set_of": ["MSF-EC-000-3", "MSF-TB-150-4"],
+      "set_of": [
+        "MSF-EC-000-3",
+        "MSF-TB-150-4"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "HO",
@@ -296,60 +525,146 @@
       "notes": "On Trial (Engine Cut OFF)",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 14,
+      "asset_code": "MSF-SC-000-6",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-SC-000-6",
-      "set_of": [],
-      "qty": 1,
-      "status": "R&D",
-      "location": "China",
+      "serial_number": "",
+      "sim_card_number": "081181401386",
+      "sim_card_iccid": "0015000016663219",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
       "assigned_to": "Internal",
-      "assigned_unit": "Unknown",
-      "installed_unit_vin": null,
-      "notes": "R&D EV unit on China",
-      "history": [],
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "Ex Trial in BSB(02/23/2026-02/27/2026)\nChecked(03/02/2026)\ndi kotak B1",
+      "set_of": [
+        "MSF-TC-150-3"
+      ],
+      "history": [
+        {
+          "date": "2 Mar 2026, 09.10",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-TC-150-3]",
+          "user": "System"
+        },
+        {
+          "date": "2 Mar 2026, 09.16",
+          "action": "Updated",
+          "changes": "Status: R&D → On Hand | Location: China → HO | Unit: Unknown → N/A",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-03-02T02:16:34.492Z"
     },
     {
       "no": 15,
+      "asset_code": "MSF-TB-150-1",
       "item_name": "FMB 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 353691843168948,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TB-150-1",
-      "set_of": ["MSF-EC-000-4", "MSF-SC-000-11"],
-      "qty": 1,
+      "serial_number": "353691843168948",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
       "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "Hino 6x4 (B 9762 UWY)",
-      "installed_unit_vin": "sudah diambil falah",
-      "notes": "Done Trial ACSL",
-      "history": [],
+      "condition": "Good",
+      "location": "IMIP",
+      "assigned_to": "Surveyor",
+      "assigned_unit": "DT F3000 IMIP",
+      "installed_unit_vin": "LZGJLDV4XPX019311",
+      "qty": 1,
+      "notes": "Ex Hino 6x4 9762 UWY",
+      "set_of": [
+        "MSF-EC-000-4",
+        "MSF-SC-000-10"
+      ],
+      "history": [
+        {
+          "date": "6 Jan 2026, 14.24",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: PT ACSL → HO | Unit: Hino 6x4 (B 9762 UWY) → N/A | Assigned To: PT ACSL → Internal | Linked Assets: [MSF-EC-000-4, MSF-SC-000-11] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.33",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Trial | Location: HO → IMIP | Unit: N/A → DT F3000 IMIP | Assigned To: Internal → Surveyor",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.35",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-EC-000-4]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.42",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-EC-000-4] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.44",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-EC-000-4, MSF-SC-000-10]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.45",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.47",
+          "action": "Updated",
+          "changes": "Location: IMIP → HO | Assigned To: Surveyor → Internal | Linked Assets: [MSF-EC-000-4, MSF-SC-000-10] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.48",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Trial | Location: HO → IMIP | Assigned To: Internal → Surveyor | Linked Assets: [None] → [MSF-EC-000-4, MSF-SC-000-10]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 17.06",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-EC-000-4, MSF-SC-000-10] → [MSF-SC-000-10]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 17.06",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-SC-000-10] → [MSF-EC-000-4, MSF-SC-000-10]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-01-20T10:06:55.564Z"
     },
     {
       "no": 16,
       "item_name": "FMB 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 353691843171702,
+      "serial_number": "353691843171702",
       "sim_card_number": null,
       "sim_card_iccid": null,
       "asset_code": "MSF-TB-150-2",
-      "set_of": ["MSF-EC-000-5", "MSF-SC-000-7"],
+      "set_of": [
+        "MSF-EC-000-5",
+        "MSF-SC-000-7"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "Sulawesi, Kabaena",
@@ -359,18 +674,22 @@
       "notes": "On Trial in Kabaena",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 17,
       "item_name": "FMB 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 353691843171769,
+      "serial_number": "353691843171769",
       "sim_card_number": null,
       "sim_card_iccid": null,
       "asset_code": "MSF-TB-150-3",
-      "set_of": ["MSF-EC-000-6", "MSF-SC-000-8"],
+      "set_of": [
+        "MSF-EC-000-6",
+        "MSF-SC-000-8"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "Sulawesi, Kabaena",
@@ -380,18 +699,22 @@
       "notes": "On Trial in Kabaena",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 18,
       "item_name": "FMB 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 353691843171546,
+      "serial_number": "353691843171546",
       "sim_card_number": null,
       "sim_card_iccid": null,
       "asset_code": "MSF-TB-150-4",
-      "set_of": ["MSF-EC-000-3", "MSF-SC-000-5"],
+      "set_of": [
+        "MSF-EC-000-3",
+        "MSF-SC-000-5"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "HO",
@@ -401,28 +724,69 @@
       "notes": "On Trial (Engine Cut OFF)",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 19,
+      "asset_code": "MSF-EC-000-4",
       "item_name": "E Can",
       "category": "CAN",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-EC-000-4",
-      "set_of": ["MSF-TB-150-1", "MSF-SC-000-11"],
+      "serial_number": "",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "status": "On Trial",
+      "condition": "Good",
+      "location": "IMIP",
+      "assigned_to": "Surveyor",
+      "assigned_unit": "DT F3000 IMIP",
+      "installed_unit_vin": "LZGJLDV4XPX019311",
       "qty": 1,
-      "status": "On Hand",
-      "location": "HO",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "Hino 6x4 (B 9762 UWY)",
-      "installed_unit_vin": "sudah diambil falah",
-      "notes": "Done Trial ACSL",
-      "history": [],
+      "notes": "Ex Hino 6x4 9762 UWY\n",
+      "set_of": [
+        "MSF-TB-150-1"
+      ],
+      "history": [
+        {
+          "date": "6 Jan 2026, 14.24",
+          "action": "Updated",
+          "changes": "Unit: Hino 6x4 (B 9762 UWY) → N/A | Assigned To: PT ACSL → Internal | Linked Assets: [MSF-SC-000-11, MSF-TB-150-1] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.41",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Trial | Location: HO → IMIP | Assigned To: Internal → Surveyor",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.46",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.48",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Trial",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.51",
+          "action": "Updated",
+          "changes": "Unit: N/A → DT F3000 IMIP",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 17.06",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-TB-150-1]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-01-20T10:06:55.564Z"
     },
     {
       "no": 20,
@@ -433,7 +797,10 @@
       "sim_card_number": null,
       "sim_card_iccid": null,
       "asset_code": "MSF-EC-000-5",
-      "set_of": ["MSF-TB-150-2", "MSF-SC-000-7"],
+      "set_of": [
+        "MSF-TB-150-2",
+        "MSF-SC-000-7"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "Sulawesi, Kabaena",
@@ -443,7 +810,8 @@
       "notes": "On Trial in Kabaena",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 21,
@@ -454,7 +822,10 @@
       "sim_card_number": null,
       "sim_card_iccid": null,
       "asset_code": "MSF-EC-000-6",
-      "set_of": ["MSF-TB-150-3", "MSF-SC-000-8"],
+      "set_of": [
+        "MSF-TB-150-3",
+        "MSF-SC-000-8"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "Sulawesi, Kabaena",
@@ -464,175 +835,343 @@
       "notes": "On Trial in Kabaena",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 22,
+      "asset_code": "MSF-EC-000-7",
       "item_name": "E Can",
       "category": "CAN",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-EC-000-7",
-      "set_of": ["MSF-TB-150-5", "MSF-SC-000-10"],
+      "serial_number": "1154470262",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "Hino 4x2 (B 9344 UFZ)",
-      "installed_unit_vin": "sudah diambil fatah",
-      "notes": "On Trial in ACSL",
-      "history": [],
+      "notes": "Checked (24/02/2026)\ntanpa dus, bareng sama dus A3 ke STT",
+      "set_of": [
+        "MSF-TC-150-4"
+      ],
+      "history": [
+        {
+          "date": "6 Jan 2026, 14.23",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: PT ACSL → HO | Unit: Hino 4x2 (B 9344 UFZ) → N/A | Assigned To: PT ACSL → Internal | Linked Assets: [MSF-SC-000-10, MSF-TB-150-5] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.10",
+          "action": "Updated",
+          "changes": "Location: HO → Sulawesi, Kolaka | Assigned To: Internal → PT STT",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.11",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-TC-150-4]",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.57",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:57:49.541Z"
     },
     {
       "no": 23,
+      "asset_code": "MSF-EC-000-8",
       "item_name": "E Can",
       "category": "CAN",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-EC-000-8",
-      "set_of": ["MSF-TC-150-1", "MSF-SC-000-2"],
+      "serial_number": "1155248800",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "TH 6x4 (B 9437 UEA)",
-      "installed_unit_vin": null,
-      "notes": "Done Trial ACSL",
-      "history": [],
+      "notes": "Checked (24/02/2026)\ndalam dus A3, otw STT",
+      "set_of": [
+        "MSF-TB-150-7"
+      ],
+      "history": [
+        {
+          "date": "9 Jan 2026, 09.51",
+          "action": "Updated",
+          "changes": "Status: On Trial → R&D | Location: PT ACSL → TMA | Unit: TH 6x4 (B 9437 UEA) → N/A | Assigned To: PT ACSL → TMA | Linked Assets: [MSF-SC-000-2, MSF-TC-150-1] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 14.22",
+          "action": "Updated",
+          "changes": "Location: TMA → Sulawesi, Kolaka | Assigned To: TMA → PT STT | Linked Assets: [None] → [MSF-TB-150-7]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.33",
+          "action": "Updated",
+          "changes": "Status: R&D → On Hand",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.59",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:59:42.129Z"
     },
     {
       "no": 24,
+      "asset_code": "MSF-AC-300-2",
       "item_name": "All Can 300",
       "category": "CAN",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-AC-300-2",
-      "set_of": [],
-      "qty": 1,
-      "status": "On Hand",
+      "serial_number": "1152507241",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "R&D",
+      "condition": "Good",
       "location": "HO",
-      "assigned_to": null,
-      "assigned_unit": null,
-      "installed_unit_vin": null,
-      "notes": null,
-      "history": [],
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "ADA (24/02/2026)\ndi dus 2",
+      "set_of": [
+        "MSF-TC-650-2"
+      ],
+      "history": [
+        {
+          "date": "8 Jan 2026, 09.09",
+          "action": "Updated",
+          "changes": "Status: On Hand → R&D | Condition: Good → Broken | Location: HO → TMA | Unit: N/A → N/A | Assigned To: N/A → TMA | Linked Assets: [None] → [MSF-TC-650-2]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 13.45",
+          "action": "Updated",
+          "changes": "Location: TMA → HO | Assigned To: TMA → Internal",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 14.12",
+          "action": "Updated",
+          "changes": "Condition: Broken → Good",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-24T07:12:37.341Z"
     },
     {
       "no": 25,
+      "asset_code": "MSF-TB-150-5",
       "item_name": "FMB 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 353691843171710,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TB-150-5",
-      "set_of": ["MSF-SC-000-10", "MSF-EC-000-7"],
+      "serial_number": "353691843171710",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "Hino 4x2 (B 9344 UFZ)",
-      "installed_unit_vin": "sudah diambil fatah",
-      "notes": "Done Trial in ACSL",
-      "history": [],
+      "notes": "ADA (24/02/2026)\ndi dus B1",
+      "set_of": [],
+      "history": [
+        {
+          "date": "6 Jan 2026, 14.23",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: PT ACSL → HO | Unit: Hino 4x2 (B 9344 UFZ) → N/A | Assigned To: PT ACSL → Internal | Linked Assets: [MSF-EC-000-7, MSF-SC-000-10] → [None]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-24T07:08:19.700Z"
     },
     {
       "no": 26,
+      "asset_code": "MSF-TB-150-6",
       "item_name": "FMB 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 353742375273745,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TB-150-6",
-      "set_of": [],
+      "serial_number": "353742375273745",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Hand",
-      "location": "HO",
-      "assigned_to": "Internal",
-      "assigned_unit": null,
-      "installed_unit_vin": null,
-      "notes": null,
-      "history": [],
+      "notes": "Checked (24/02/2026)\nada dalam dus A4, bareng sama dus A3 ke STT",
+      "set_of": [],
+      "history": [
+        {
+          "date": "24 Feb 2026, 16.28",
+          "action": "Updated",
+          "changes": "Location: HO → Sulawesi, Kolaka | Unit: N/A → N/A | Assigned To: Internal → PT STT",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.57",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:57:03.933Z"
     },
     {
       "no": 27,
+      "asset_code": "MSF-TB-150-7",
       "item_name": "FMB 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 353742374831188,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TB-150-7",
-      "set_of": [],
+      "serial_number": "353742374831188",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Hand",
-      "location": "HO",
-      "assigned_to": "Internal",
-      "assigned_unit": null,
-      "installed_unit_vin": null,
-      "notes": null,
-      "history": [],
+      "notes": "Checked (24/02/2026)\ndi dus A3, otw STT",
+      "set_of": [
+        "MSF-EC-000-8",
+        "MSF-SC-000-12"
+      ],
+      "history": [
+        {
+          "date": "24 Feb 2026, 14.22",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-EC-000-8]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 14.24",
+          "action": "Updated",
+          "changes": "Location: HO → Sulawesi, Kolaka | Unit: N/A → N/A | Assigned To: Internal → PT STT",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 14.27",
+          "action": "Updated",
+          "changes": "Linked Assets: [MSF-EC-000-8] → [MSF-EC-000-8, MSF-SC-000-12]",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.59",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:59:15.821Z"
     },
     {
       "no": 28,
+      "asset_code": "MSF-TB-150-8",
       "item_name": "FMB 150",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 353742375271764,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TB-150-8",
-      "set_of": [],
-      "qty": 1,
+      "serial_number": "353742375271764",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
       "status": "On Hand",
+      "condition": "Good",
       "location": "HO",
       "assigned_to": "Internal",
-      "assigned_unit": null,
-      "installed_unit_vin": null,
-      "notes": null,
-      "history": [],
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "ADA (24/02/2026)\ndi dus A2",
+      "set_of": [],
+      "history": [
+        {
+          "date": "24 Feb 2026, 14.01",
+          "action": "Updated",
+          "changes": "Unit: N/A → N/A",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-24T07:01:28.284Z"
     },
     {
       "no": 29,
+      "asset_code": "MSF-TC-650-2",
       "item_name": "FMC 650",
       "category": "Device-Telematics",
       "purchase_source": "TMA",
-      "serial_number": 865124070661329,
-      "sim_card_number": null,
-      "sim_card_iccid": null,
-      "asset_code": "MSF-TC-650-2",
-      "set_of": [],
-      "qty": 1,
+      "serial_number": "865124070661329",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
       "status": "On Hand",
+      "condition": "Good",
       "location": "HO",
       "assigned_to": "Internal",
-      "assigned_unit": null,
-      "installed_unit_vin": null,
-      "notes": null,
-      "history": [],
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "Done check skema wiring\nADA (24/02/2026)\ndi dus 2",
+      "set_of": [
+        "MSF-AC-300-2"
+      ],
+      "history": [
+        {
+          "date": "8 Jan 2026, 09.03",
+          "action": "Updated",
+          "changes": "Status: On Hand → R&D | Condition: Good → Broken | Location: HO → TMA | Unit: N/A → N/A | Assigned To: Internal → TMA",
+          "user": "System"
+        },
+        {
+          "date": "8 Jan 2026, 09.31",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-AC-300-2]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 13.43",
+          "action": "Updated",
+          "changes": "Status: R&D → On Hand | Condition: Broken → Good | Location: TMA → HO | Assigned To: TMA → Internal",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-24T07:11:43.847Z"
     },
     {
       "no": 30,
@@ -643,7 +1182,10 @@
       "sim_card_number": "08139551930",
       "sim_card_iccid": "-",
       "asset_code": "MSF-SC-000-7",
-      "set_of": ["MSF-TB-150-2", "MSF-EC-000-5"],
+      "set_of": [
+        "MSF-TB-150-2",
+        "MSF-EC-000-5"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "Sulawesi, Kabaena",
@@ -653,7 +1195,8 @@
       "notes": "On Trial in Kabaena",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 31,
@@ -664,7 +1207,10 @@
       "sim_card_number": "085122332415",
       "sim_card_iccid": "621006229033241500",
       "asset_code": "MSF-SC-000-8",
-      "set_of": ["MSF-TB-150-3", "MSF-EC-000-6"],
+      "set_of": [
+        "MSF-TB-150-3",
+        "MSF-EC-000-6"
+      ],
       "qty": 1,
       "status": "On Trial",
       "location": "Sulawesi, Kabaena",
@@ -674,91 +1220,174 @@
       "notes": "On Trial in Kabaena",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 32,
+      "asset_code": "MSF-SC-000-9",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
+      "serial_number": "",
       "sim_card_number": "085156854832",
       "sim_card_iccid": "621000549076251500",
-      "asset_code": "MSF-SC-000-9",
-      "set_of": ["MSF-TC-150-4"],
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Site",
-      "location": "Sulawesi, Kabaena",
-      "assigned_to": "PT MTL",
-      "assigned_unit": "Not Assigned",
-      "installed_unit_vin": "otw diambil falah",
-      "notes": "On Site in Kabaena",
-      "history": [],
+      "notes": "",
+      "set_of": [],
+      "history": [
+        {
+          "date": "7 Jan 2026, 14.14",
+          "action": "Updated",
+          "changes": "Status: On Site → On Hand | Location: Sulawesi, Kabaena → HO | Unit: Not Assigned → N/A | Assigned To: PT MTL → Internal | Linked Assets: [MSF-TC-150-4] → [None]",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-01-07T07:14:38.006Z"
     },
     {
       "no": 33,
+      "asset_code": "MSF-SC-000-10",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
+      "serial_number": "",
       "sim_card_number": "081181401397",
-      "sim_card_iccid": "-",
-      "asset_code": "MSF-SC-000-10",
-      "set_of": ["MSF-TB-150-5", "MSF-EC-000-7"],
-      "qty": 1,
+      "sim_card_iccid": "0015000016663231",
       "status": "On Trial",
-      "location": "PT ACSL",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "Hino 4x2 (B 9344 UFZ)",
-      "installed_unit_vin": "sudah diambil fatah",
-      "notes": "On Trial in ACSL",
-      "history": [],
+      "condition": "Good",
+      "location": "IMIP",
+      "assigned_to": "Surveyor",
+      "assigned_unit": "DT F3000 IMIP",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "Ex Hino 4x2\n",
+      "set_of": [
+        "MSF-TB-150-1"
+      ],
+      "history": [
+        {
+          "date": "6 Jan 2026, 14.22",
+          "action": "Updated",
+          "changes": "Status: On Trial → On Hand | Location: PT ACSL → HO | Unit: Hino 4x2 (B 9344 UFZ) → N/A | Assigned To: PT ACSL → Internal | Linked Assets: [MSF-EC-000-7, MSF-TB-150-5] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.37",
+          "action": "Updated",
+          "changes": "Location: HO → IMIP | Unit: N/A → DT F3000 IMIP | Assigned To: Internal → Surveyor | Linked Assets: [None] → [MSF-TB-150-1]",
+          "user": "System"
+        },
+        {
+          "date": "20 Jan 2026, 13.38",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Trial",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-01-20T06:49:28.518Z"
     },
     {
       "no": 34,
+      "asset_code": "MSF-SC-000-11",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
-      "sim_card_number": null,
-      "sim_card_iccid": "-",
-      "asset_code": "MSF-SC-000-11",
-      "set_of": ["MSF-EC-000-4", "MSF-TB-150-1"],
+      "serial_number": "",
+      "sim_card_number": "08117698763",
+      "sim_card_iccid": "0015000017391329",
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Hand",
-      "location": "HO",
-      "assigned_to": "PT ACSL",
-      "assigned_unit": "Hino 6x4 (B 9762 UWY)",
-      "installed_unit_vin": "sudah diambil falah",
-      "notes": "On Trial in ACSL",
-      "history": [],
+      "notes": "Checked (24/02/2026)\nTanpa dus, bareng sama dus A3 ke STT",
+      "set_of": [
+        "MSF-TC-150-4"
+      ],
+      "history": [
+        {
+          "date": "6 Jan 2026, 14.25",
+          "action": "Updated",
+          "changes": "Unit: Hino 6x4 (B 9762 UWY) → N/A | Assigned To: PT ACSL → Internal | Linked Assets: [MSF-EC-000-4, MSF-TB-150-1] → [None]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.08",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-TC-150-4]",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 16.11",
+          "action": "Updated",
+          "changes": "Location: HO → Sulawesi, Kolaka | Assigned To: Internal → PT STT",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 08.58",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T01:58:23.087Z"
     },
     {
       "no": 35,
+      "asset_code": "MSF-SC-000-12",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
+      "serial_number": "",
       "sim_card_number": "081181401402",
       "sim_card_iccid": "0015000016663235",
-      "asset_code": "MSF-SC-000-12",
-      "set_of": [],
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
-      "status": "On Hand",
-      "location": "HO",
-      "assigned_to": "Internal",
-      "assigned_unit": null,
-      "installed_unit_vin": null,
-      "notes": "Registered",
-      "history": [],
+      "notes": "Checked (24/02/2026)\ndi dus A3, otw ke STT",
+      "set_of": [
+        "MSF-TB-150-7"
+      ],
+      "history": [
+        {
+          "date": "24 Feb 2026, 14.27",
+          "action": "Updated",
+          "changes": "Location: HO → Sulawesi, Kolaka | Unit: N/A → N/A | Assigned To: Internal → PT STT",
+          "user": "System"
+        },
+        {
+          "date": "24 Feb 2026, 14.27",
+          "action": "Updated",
+          "changes": "Linked Assets: [None] → [MSF-TB-150-7]",
+          "user": "System"
+        },
+        {
+          "date": "25 Feb 2026, 09.00",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site",
+          "user": "System"
+        }
+      ],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2026-02-25T02:00:01.137Z"
     },
     {
       "no": 36,
@@ -779,7 +1408,8 @@
       "notes": "Registered",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 37,
@@ -800,28 +1430,306 @@
       "notes": "Registered",
       "history": [],
       "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "last_modified": "2024-01-01T00:00:00Z",
+      "condition": "Good"
     },
     {
       "no": 38,
+      "asset_code": "MSF-SC-000-15",
       "item_name": "SIM Card",
       "category": "SIM",
       "purchase_source": "TMA",
-      "serial_number": null,
+      "serial_number": "",
       "sim_card_number": "081181448522",
       "sim_card_iccid": "0015000016804158",
-      "asset_code": "MSF-SC-000-15",
-      "set_of": [],
+      "camera_package": "",
+      "status": "On Site",
+      "condition": "Good",
+      "location": "Sulawesi, Kolaka",
+      "assigned_to": "PT. STT",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
       "qty": 1,
+      "notes": "Checked(03/02/2026)\njadi sim card cadangan dibawa ke STT, ada di dalam hp tester",
+      "set_of": [],
+      "history": [
+        {
+          "date": "2 Mar 2026, 12.57",
+          "action": "Updated",
+          "changes": "Status: On Hand → On Site | Location: HO → Sulawesi, Kolaka | Unit: N/A → N/A | Assigned To: Internal → PT. STT",
+          "user": "System"
+        }
+      ],
+      "created_at": "2024-01-01T00:00:00Z",
+      "last_modified": "2026-03-02T05:57:38.379Z"
+    },
+    {
+      "no": 39,
+      "asset_code": "MSF-AC-300-3",
+      "item_name": "All Can 300",
+      "category": "CAN",
+      "purchase_source": "TMA",
+      "serial_number": "1154092622",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
       "status": "On Hand",
+      "condition": "Good",
       "location": "HO",
       "assigned_to": "Internal",
-      "assigned_unit": null,
-      "installed_unit_vin": null,
-      "notes": "Registered",
-      "history": [],
-      "created_at": "2024-01-01T00:00:00Z",
-      "last_modified": "2024-01-01T00:00:00Z"
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "ADA (20/01/2026)",
+      "set_of": [],
+      "history": [
+        {
+          "date": "9 Jan 2026, 09.28",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-01-09T02:28:00.564Z",
+      "last_modified": "2026-01-20T06:32:05.733Z"
+    },
+    {
+      "no": 40,
+      "asset_code": "MSF-AC-300-4",
+      "item_name": "All Can 300",
+      "category": "CAN",
+      "purchase_source": "TMA",
+      "serial_number": "1154092674",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "ADA (20/01/2026)",
+      "set_of": [],
+      "history": [
+        {
+          "date": "9 Jan 2026, 09.29",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-01-09T02:29:39.633Z",
+      "last_modified": "2026-01-20T06:32:09.696Z"
+    },
+    {
+      "no": 41,
+      "asset_code": "MSF-TC-650-3",
+      "item_name": "FMC 650",
+      "category": "Device-Telematics",
+      "purchase_source": "TMA",
+      "serial_number": "865124071551149",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "ADA (24/02/2026)\ndi dus 3",
+      "set_of": [],
+      "history": [
+        {
+          "date": "9 Jan 2026, 09.36",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-01-09T02:36:48.512Z",
+      "last_modified": "2026-02-24T06:57:39.347Z"
+    },
+    {
+      "no": 42,
+      "asset_code": "MSF-TC-650-4",
+      "item_name": "FMC 650",
+      "category": "Device-Telematics",
+      "purchase_source": "TMA",
+      "serial_number": "865124071280442",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "ADA (24/02/2026)\ndi dus 4",
+      "set_of": [],
+      "history": [
+        {
+          "date": "9 Jan 2026, 09.39",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-01-09T02:39:36.889Z",
+      "last_modified": "2026-02-24T07:02:34.185Z"
+    },
+    {
+      "no": 43,
+      "asset_code": "MSF-TC-650-5",
+      "item_name": "FMC 650",
+      "category": "Device-Telematics",
+      "purchase_source": "TMA",
+      "serial_number": "865124070824760",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "ADA (24/02/2026)\ndi dus nomor 5",
+      "set_of": [],
+      "history": [
+        {
+          "date": "9 Jan 2026, 09.43",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-01-09T02:43:39.345Z",
+      "last_modified": "2026-02-24T06:59:19.407Z"
+    },
+    {
+      "no": 44,
+      "asset_code": "MSF-SC-000-16",
+      "item_name": "SIM Card",
+      "category": "SIM",
+      "purchase_source": "TMA",
+      "serial_number": "",
+      "sim_card_number": "081181401425",
+      "sim_card_iccid": "0015000016663257",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "Checked (24/02/2026)\nada di dus A1",
+      "set_of": [],
+      "history": [
+        {
+          "date": "24 Feb 2026, 16.25",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-02-24T09:25:06.182Z",
+      "last_modified": "2026-02-24T09:25:06.182Z"
+    },
+    {
+      "no": 45,
+      "asset_code": "MSF-SC-000-17",
+      "item_name": "SIM Card",
+      "category": "SIM",
+      "purchase_source": "TMA",
+      "serial_number": "",
+      "sim_card_number": "085211696893",
+      "sim_card_iccid": "621001114269689300",
+      "camera_package": "",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "Checked(03/02/2026)\nada di box A1",
+      "set_of": [],
+      "history": [
+        {
+          "date": "2 Mar 2026, 12.54",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-03-02T05:54:40.014Z",
+      "last_modified": "2026-03-02T05:54:40.014Z"
+    },
+    {
+      "no": 46,
+      "asset_code": "MSF-ADAS-000-001",
+      "item_name": "ADAS Camera",
+      "category": "ADAS-Camera",
+      "purchase_source": "TMA",
+      "serial_number": "867734081378784",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "Base",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "Ex-BSB Trial(02/23/2026-02/27/2026)\nChecked(03/02/2026)\ndi box AD-1",
+      "set_of": [],
+      "history": [
+        {
+          "date": "2 Mar 2026, 13.18",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-03-02T06:18:10.946Z",
+      "last_modified": "2026-03-02T06:22:39.879Z"
+    },
+    {
+      "no": 47,
+      "asset_code": "MSF-DMS-000-001",
+      "item_name": "DMS Camera",
+      "category": "DMS-Camera",
+      "purchase_source": "TMA",
+      "serial_number": "SPE11131339",
+      "sim_card_number": "",
+      "sim_card_iccid": "",
+      "camera_package": "Base",
+      "status": "On Hand",
+      "condition": "Good",
+      "location": "HO",
+      "assigned_to": "Internal",
+      "assigned_unit": "",
+      "installed_unit_vin": "",
+      "qty": 1,
+      "notes": "Ex-BSB Trial(02/23/2026-02/27/2026)\nChecked(03/02/2026)\ndi box D1",
+      "set_of": [],
+      "history": [
+        {
+          "date": "2 Mar 2026, 13.22",
+          "action": "Created",
+          "changes": "Initial record created",
+          "user": "System"
+        }
+      ],
+      "created_at": "2026-03-02T06:22:15.651Z",
+      "last_modified": "2026-03-02T06:22:15.651Z"
     }
   ]
 }
