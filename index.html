@@ -283,7 +283,7 @@
                 <input type="text"
                        id="searchInput"
                        onkeyup="filterTable()"
-                       placeholder="Search by serial, asset code, unit, location..."
+                       placeholder="Search by serial, asset code, SIM number, ICCID, unit, location..."
                        class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-4 py-2 text-sm w-full md:w-80 outline-none focus:ring-1 focus:ring-gray-400 transition">
                 <div id="page-info" class="text-xs font-medium text-gray-400 uppercase tracking-wide whitespace-nowrap"></div>
             </div>
@@ -772,9 +772,15 @@
                 const statusColor = CHART_COLORS[item.status] || '#94a3b8';
                 const condColor = item.condition === 'Good' ? '#16a34a' : '#dc2626';
 
-                const linkedAssets = Array.isArray(item.set_of) && item.set_of.length > 0
-                    ? item.set_of.map(code => `<span class="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-1.5 py-0.5 rounded text-xs font-mono m-0.5">${code}</span>`).join('')
-                    : '<span class="text-gray-300 dark:text-gray-600 text-xs">—</span>';
+                const linkedAssets = (() => {
+                    if (!Array.isArray(item.set_of) || item.set_of.length === 0)
+                        return '<span class="text-gray-300 dark:text-gray-600 text-xs">—</span>';
+                    const visible = item.set_of.slice(0, 2);
+                    const extra = item.set_of.length - 2;
+                    const chips = visible.map(code => `<span class="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-1.5 py-0.5 rounded text-xs font-mono m-0.5">${code}</span>`).join('');
+                    const more = extra > 0 ? `<span class="inline-block bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded text-xs font-medium m-0.5" title="${item.set_of.slice(2).join(', ')}">+${extra} more</span>` : '';
+                    return chips + more;
+                })();
 
                 row.innerHTML = `
                     <td class="text-gray-400 font-mono text-xs">${item.no}</td>
@@ -837,8 +843,7 @@
                 i.category === selectedCat &&
                 allowedItemsInCat.includes(i.item_name) &&
                 i.asset_code !== selfCode &&
-                !tempBoundAssets.includes(i.asset_code) &&
-                !appData.inventory.some(inv => inv.asset_code !== selfCode && inv.set_of?.includes(i.asset_code))
+                !tempBoundAssets.includes(i.asset_code)
             );
 
             available.forEach(i => {
@@ -1216,13 +1221,15 @@
         function applySearchFilter(data) {
             const q = document.getElementById('searchInput').value.toLowerCase().trim();
             if (!q) return data;
-            return data.filter(i => 
+            return data.filter(i =>
                 (i.asset_code?.toLowerCase().includes(q)) ||
                 (i.serial_number?.toString().toLowerCase().includes(q)) ||
                 (i.assigned_unit?.toLowerCase().includes(q)) ||
                 (i.location?.toLowerCase().includes(q)) ||
                 (i.item_name?.toLowerCase().includes(q)) ||
-                (i.notes?.toLowerCase().includes(q))
+                (i.notes?.toLowerCase().includes(q)) ||
+                (i.sim_card_number?.toLowerCase().includes(q)) ||
+                (i.sim_card_iccid?.toLowerCase().includes(q))
             );
         }
 
