@@ -115,7 +115,7 @@
         </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
             <div class="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm" style="border-left:3px solid #64748b">
                 <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">Total Assets</p>
                 <h3 class="text-4xl font-black text-gray-900 dark:text-white" id="stat-total">0</h3>
@@ -135,6 +135,11 @@
                 <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">Broken Items</p>
                 <h3 class="text-4xl font-black text-gray-900 dark:text-white" id="stat-broken">0</h3>
                 <p class="text-xs text-gray-400 mt-2">Needs repair / return</p>
+            </div>
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm" style="border-left:3px solid #0f766e">
+                <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">Sold</p>
+                <h3 class="text-4xl font-black text-gray-900 dark:text-white" id="stat-sold">0</h3>
+                <p class="text-xs text-gray-400 mt-2">Items sold to clients</p>
             </div>
         </div>
 
@@ -315,6 +320,7 @@
                             <option value="On Site">On Site</option>
                             <option value="On Trial">On Trial</option>
                             <option value="R&D">R&D</option>
+                            <option value="Sold">Sold</option>
                         </select>
                         <select id="filterCondition" onchange="filterTable()"
                                 class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gray-400 transition text-gray-600 dark:text-gray-300">
@@ -449,9 +455,10 @@
                             <option value="On Site">On Site</option>
                             <option value="Broken">Broken</option>
                             <option value="R&D">R&D</option>
+                            <option value="Sold">Sold</option>
                         </select>
                     </div>
-                    
+
                     <div>
                         <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Quantity</label>
                         <input type="number" id="qty" value="1" min="1"
@@ -617,7 +624,7 @@
             'MDVR': '#4f46e5', 'ADAS-Camera': '#7c3aed', 'DMS-Camera': '#2563eb',
             'Others-Camera': '#0284c7', 'Camera-SIM': '#ea580c', 'SD-Card': '#78716c',
             'On Hand': '#16a34a', 'On Trial': '#d97706', 'On Site': '#2563eb',
-            'Broken': '#dc2626', 'R&D': '#7c3aed',
+            'Broken': '#dc2626', 'R&D': '#7c3aed', 'Sold': '#0f766e',
         };
 
         function chartRow(label, count, pct, color) {
@@ -668,6 +675,7 @@
             document.getElementById('stat-trial').textContent = inv.filter(i => i.status === 'On Trial').length;
             document.getElementById('stat-site').textContent = inv.filter(i => i.status === 'On Site').length;
             document.getElementById('stat-broken').textContent = inv.filter(i => i.condition === 'Broken').length;
+            document.getElementById('stat-sold').textContent = inv.filter(i => i.status === 'Sold').length;
             
             // Category Chart
             const categories = {};
