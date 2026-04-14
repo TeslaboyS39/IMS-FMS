@@ -286,14 +286,50 @@
 
         <!-- Main Table Card -->
         <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
-            <!-- Search Bar -->
-            <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-3">
-                <input type="text"
-                       id="searchInput"
-                       onkeyup="filterTable()"
-                       placeholder="Search by serial, asset code, SIM number, ICCID, unit, location..."
-                       class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-4 py-2 text-sm w-full md:w-80 outline-none focus:ring-1 focus:ring-gray-400 transition">
-                <div id="page-info" class="text-xs font-medium text-gray-400 uppercase tracking-wide whitespace-nowrap"></div>
+            <!-- Search & Filter Bar -->
+            <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex flex-col gap-2">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                    <div class="flex flex-wrap gap-2 items-center w-full">
+                        <input type="text"
+                               id="searchInput"
+                               onkeyup="filterTable()"
+                               placeholder="Search serial, asset code, SIM, unit, location..."
+                               class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-4 py-2 text-sm w-full md:w-72 outline-none focus:ring-1 focus:ring-gray-400 transition">
+                        <select id="filterCategory" onchange="filterTable()"
+                                class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gray-400 transition text-gray-600 dark:text-gray-300">
+                            <option value="">All Categories</option>
+                            <option value="Device-Telematics">Device-Telematics</option>
+                            <option value="CAN">CAN Adapter</option>
+                            <option value="SIM">SIM Card</option>
+                            <option value="MDVR">MDVR</option>
+                            <option value="ADAS-Camera">ADAS Camera</option>
+                            <option value="DMS-Camera">DMS Camera</option>
+                            <option value="Others-Camera">Others Camera</option>
+                            <option value="Camera-SIM">Camera SIM Card</option>
+                            <option value="SD-Card">SD Card</option>
+                        </select>
+                        <select id="filterStatus" onchange="filterTable()"
+                                class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gray-400 transition text-gray-600 dark:text-gray-300">
+                            <option value="">All Status</option>
+                            <option value="On Hand">On Hand</option>
+                            <option value="On Site">On Site</option>
+                            <option value="On Trial">On Trial</option>
+                            <option value="R&D">R&D</option>
+                        </select>
+                        <select id="filterCondition" onchange="filterTable()"
+                                class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gray-400 transition text-gray-600 dark:text-gray-300">
+                            <option value="">All Condition</option>
+                            <option value="Good">Good</option>
+                            <option value="Broken">Broken</option>
+                        </select>
+                        <button onclick="clearFilters()"
+                                id="clearFiltersBtn"
+                                class="hidden px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                            Clear
+                        </button>
+                    </div>
+                    <div id="page-info" class="text-xs font-medium text-gray-400 uppercase tracking-wide whitespace-nowrap"></div>
+                </div>
             </div>
 
             <!-- Table -->
@@ -1228,22 +1264,43 @@
 
         function applySearchFilter(data) {
             const q = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (!q) return data;
-            return data.filter(i =>
-                (i.asset_code?.toLowerCase().includes(q)) ||
-                (i.serial_number?.toString().toLowerCase().includes(q)) ||
-                (i.assigned_unit?.toLowerCase().includes(q)) ||
-                (i.location?.toLowerCase().includes(q)) ||
-                (i.item_name?.toLowerCase().includes(q)) ||
-                (i.notes?.toLowerCase().includes(q)) ||
-                (i.sim_card_number?.toLowerCase().includes(q)) ||
-                (i.sim_card_iccid?.toLowerCase().includes(q))
-            );
+            const cat = document.getElementById('filterCategory').value;
+            const status = document.getElementById('filterStatus').value;
+            const condition = document.getElementById('filterCondition').value;
+
+            const hasFilter = q || cat || status || condition;
+            document.getElementById('clearFiltersBtn').classList.toggle('hidden', !hasFilter);
+
+            return data.filter(i => {
+                const matchQ = !q || (
+                    (i.asset_code?.toLowerCase().includes(q)) ||
+                    (i.serial_number?.toString().toLowerCase().includes(q)) ||
+                    (i.assigned_unit?.toLowerCase().includes(q)) ||
+                    (i.assigned_to?.toLowerCase().includes(q)) ||
+                    (i.location?.toLowerCase().includes(q)) ||
+                    (i.item_name?.toLowerCase().includes(q)) ||
+                    (i.notes?.toLowerCase().includes(q)) ||
+                    (i.sim_card_number?.toLowerCase().includes(q)) ||
+                    (i.sim_card_iccid?.toLowerCase().includes(q))
+                );
+                const matchCat = !cat || i.category === cat;
+                const matchStatus = !status || i.status === status;
+                const matchCond = !condition || i.condition === condition;
+                return matchQ && matchCat && matchStatus && matchCond;
+            });
         }
 
-        function filterTable() { 
-            currentPage = 1; 
-            renderTable(); 
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterCategory').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('filterCondition').value = '';
+            filterTable();
+        }
+
+        function filterTable() {
+            currentPage = 1;
+            renderTable();
         }
 
         // Import/Export
