@@ -321,6 +321,8 @@
                             <option value="On Trial">On Trial</option>
                             <option value="R&D">R&D</option>
                             <option value="Sold">Sold</option>
+                            <option value="Shipping">Shipping</option>
+                            <option value="Lost or Unknown">Lost or Unknown</option>
                         </select>
                         <select id="filterCondition" onchange="filterTable()"
                                 class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gray-400 transition text-gray-600 dark:text-gray-300">
@@ -456,6 +458,8 @@
                             <option value="Broken">Broken</option>
                             <option value="R&D">R&D</option>
                             <option value="Sold">Sold</option>
+                            <option value="Shipping">Shipping</option>
+                            <option value="Lost or Unknown">Lost or Unknown</option>
                         </select>
                     </div>
 
@@ -625,6 +629,7 @@
             'Others-Camera': '#0284c7', 'Camera-SIM': '#ea580c', 'SD-Card': '#78716c',
             'On Hand': '#16a34a', 'On Trial': '#d97706', 'On Site': '#2563eb',
             'Broken': '#dc2626', 'R&D': '#7c3aed', 'Sold': '#0f766e',
+            'Shipping': '#0284c7', 'Lost or Unknown': '#6b7280',
         };
 
         function chartRow(label, count, pct, color) {
@@ -1424,7 +1429,9 @@
                 'Broken': 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-400',
                 'On Site': 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-400',
                 'On Hand': 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-400',
-                'R&D': 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-400'
+                'R&D': 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-400',
+                'Shipping': 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-400',
+                'Lost or Unknown': 'bg-gray-100 text-gray-600 dark:bg-gray-900/40 dark:text-gray-400'
             };
             return colors[s] || 'bg-gray-100 text-gray-800 dark:bg-gray-900/40 dark:text-gray-400';
         }
